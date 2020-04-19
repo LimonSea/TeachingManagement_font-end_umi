@@ -1,21 +1,19 @@
 import { Button, Result } from 'antd';
-import { FormattedMessage, formatMessage, Link } from 'umi';
+import get from 'lodash/get';
+import { Link } from 'umi';
 import React from 'react';
 import { RouteChildrenProps } from 'react-router';
-
 import styles from './style.less';
 
 const actions = (
   <div className={styles.actions}>
     <a href="">
       <Button size="large" type="primary">
-        <FormattedMessage id="userandregister-result.register-result.view-mailbox" />
+        查看邮箱
       </Button>
     </a>
     <Link to="/">
-      <Button size="large">
-        <FormattedMessage id="userandregister-result.register-result.back-home" />
-      </Button>
+      <Button size="large">返回首页</Button>
     </Link>
   </div>
 );
@@ -24,15 +22,8 @@ const RegisterResult: React.FC<RouteChildrenProps> = ({ location }) => (
   <Result
     className={styles.registerResult}
     status="success"
-    title={
-      <div className={styles.title}>
-        <FormattedMessage
-          id="userandregister-result.register-result.msg"
-          values={{ email: location.state ? location.state.account : 'AntDesign@example.com' }}
-        />
-      </div>
-    }
-    subTitle={formatMessage({ id: 'userandregister-result.register-result.activation-email' })}
+    title={<div className={styles.title}>你的账户：{get(location, 'state.account')} 注册成功</div>}
+    subTitle="激活邮件已发送到你的邮箱中，邮件有效期为24小时。请及时登录邮箱，点击邮件中的链接激活帐户。"
     extra={actions}
   />
 );

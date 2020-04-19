@@ -1,9 +1,7 @@
 import { Col, Row } from 'antd';
 import GGEditor, { Flow } from 'gg-editor';
-
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import React from 'react';
-import { formatMessage } from 'umi';
 import EditorMinimap from './components/EditorMinimap';
 import { FlowContextMenu } from './components/EditorContextMenu';
 import { FlowDetailPanel } from './components/EditorDetailPanel';
@@ -12,14 +10,8 @@ import { FlowToolbar } from './components/EditorToolbar';
 import styles from './index.less';
 
 GGEditor.setTrackable(false);
-
 export default () => (
-  <PageHeaderWrapper
-    content={formatMessage({
-      id: 'editorandflow.description',
-      defaultMessage: '',
-    })}
-  >
+  <PageHeaderWrapper content="千言万语不如一张图，流程图是表示算法思路的好方法">
     <GGEditor className={styles.editor}>
       <Row className={styles.editorHd}>
         <Col span={24}>
