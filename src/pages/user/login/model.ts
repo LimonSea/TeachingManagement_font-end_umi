@@ -37,6 +37,9 @@ const Model: ModelType = {
       });
       // Login successfully
       if (response.status === 'ok') {
+        if (response.token) {
+          localStorage.setItem('token', response.token);
+        }
         message.success('登录成功！');
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();

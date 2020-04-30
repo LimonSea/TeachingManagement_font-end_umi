@@ -1,9 +1,9 @@
 import { Effect, Reducer } from 'umi';
 
-import { fakeRegister } from './service';
+import { Register } from './service';
 
 export interface StateType {
-  status?: 'ok' | 'error';
+  status?: 'ok' | 'error' | number;
   currentAuthority?: 'user' | 'guest' | 'admin';
 }
 
@@ -27,12 +27,17 @@ const Model: ModelType = {
 
   effects: {
     *submit({ payload }, { call, put }) {
-      const response = yield call(fakeRegister, payload);
+      const response = yield call(Register, payload);
       yield put({
         type: 'registerHandle',
         payload: response,
       });
     },
+    *clear({ payload }, { call, put }) {
+      yield put({
+        type: 'clearRegister',
+      });
+    }
   },
 
   reducers: {
@@ -42,6 +47,9 @@ const Model: ModelType = {
         status: payload.status,
       };
     },
+    clearRegister(state, { payload }) {
+      return null;
+    }
   },
 };
 

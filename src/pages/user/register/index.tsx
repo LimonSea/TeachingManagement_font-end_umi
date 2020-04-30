@@ -52,12 +52,19 @@ const Register: FC<RegisterProps> = ({ submitting, dispatch, userAndregister }) 
 
     if (userAndregister.status === 'ok') {
       message.success('注册成功！');
+      // 清除当前状态
+      dispatch({
+        type: 'userAndregister/clear',
+      });
       history.push({
         pathname: '/user/register-result',
         state: {
           account,
         },
       });
+    }
+    else if (userAndregister.status === 'error') {
+      message.success('注册失败，请稍后再试');
     }
   }, [userAndregister]);
   useEffect(

@@ -70,7 +70,7 @@ export interface NoticeType {
 export interface CurrentUser {
   name: string;
   avatar: string;
-  userid: string;
+  id: string;
   notice: NoticeType[];
   email: string;
   signature: string;

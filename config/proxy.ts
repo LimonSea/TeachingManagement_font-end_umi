@@ -7,10 +7,15 @@
  */
 export default {
   dev: {
-    '/api/': {
+    '/server/': {
       target: 'http://127.0.0.1:7001',
       changeOrigin: true,
-      // pathRewrite: { '^': '' },
+      pathRewrite: { '^/server': '' },
+    },
+    '/api/': {
+      target: 'https://preview.pro.ant.design',
+      changeOrigin: true,
+      pathRewrite: { '^': '' },
     },
   },
   test: {

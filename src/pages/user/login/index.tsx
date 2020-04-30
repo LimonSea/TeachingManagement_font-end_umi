@@ -52,12 +52,12 @@ const Login: React.FC<LoginProps> = (props) => {
           )}
 
           <UserName
-            name="userName"
-            placeholder="用户名: admin or user"
+            name="mail"
+            placeholder="邮箱: admin or user"
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: '请输入邮箱!',
               },
             ]}
           />
@@ -119,9 +119,9 @@ const Login: React.FC<LoginProps> = (props) => {
         <Submit loading={submitting}>登录</Submit>
         <div className={styles.other}>
           其他登录方式
-          <AlipayCircleOutlined className={styles.icon} />
+          {/* <AlipayCircleOutlined className={styles.icon} />
           <TaobaoCircleOutlined className={styles.icon} />
-          <WeiboCircleOutlined className={styles.icon} />
+          <WeiboCircleOutlined className={styles.icon} /> */}
           <Link className={styles.register} to="/user/register">
             注册账户
           </Link>
