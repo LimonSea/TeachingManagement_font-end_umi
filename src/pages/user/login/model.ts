@@ -58,6 +58,9 @@ const Model: ModelType = {
         }
         history.replace(redirect || '/');
       }
+      else {
+        message.error(response.msg);
+      }
     },
 
     *getCaptcha({ payload }, { call }) {
