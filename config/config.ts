@@ -19,13 +19,7 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
-  locale: {
-    // default zh-CN
-    default: 'zh-CN',
-    // default true, when it is true, will use `navigator.language` overwrite default
-    antd: false,
-    baseNavigator: false,
-  },
+  locale: {},
   dynamicImport: {
     loading: '@/components/PageLoading/index',
   },
