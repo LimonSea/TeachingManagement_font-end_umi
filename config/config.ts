@@ -253,7 +253,7 @@ export default defineConfig({
                 {
                   name: '个人中心',
                   icon: 'smile',
-                  path: '/account/center',
+                  path: '/account/center/:id',
                   component: './account/center',
                 },
                 {

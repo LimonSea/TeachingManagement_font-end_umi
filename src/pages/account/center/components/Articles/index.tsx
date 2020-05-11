@@ -1,4 +1,4 @@
-import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons';
+// import { StarTwoTone, LikeOutlined, MessageFilled } from '@ant-design/icons';
 import { List, Tag } from 'antd';
 import React from 'react';
 
@@ -10,14 +10,14 @@ import styles from './index.less';
 
 const Articles: React.FC<Partial<ModalState>> = (props) => {
   const { list } = props;
-  const IconText: React.FC<{
-    icon: React.ReactNode;
-    text: React.ReactNode;
-  }> = ({ icon, text }) => (
-    <span>
-      {icon} {text}
-    </span>
-  );
+  // const IconText: React.FC<{
+  //   icon: React.ReactNode;
+  //   text: React.ReactNode;
+  // }> = ({ icon, text }) => (
+  //   <span>
+  //     {icon} {text}
+  //   </span>
+  // );
   return (
     <List<ListItemDataType>
       size="large"
@@ -28,23 +28,22 @@ const Articles: React.FC<Partial<ModalState>> = (props) => {
       renderItem={(item) => (
         <List.Item
           key={item.id}
-          actions={[
-            <IconText key="star" icon={<StarTwoTone />} text={item.star} />,
-            <IconText key="like" icon={<LikeOutlined />} text={item.like} />,
-            <IconText key="message" icon={<MessageFilled />} text={item.message} />,
-          ]}
+          // actions={[
+          //   <IconText key="star" icon={<StarTwoTone />} text={item.star} />,
+          //   <IconText key="like" icon={<LikeOutlined />} text={item.like} />,
+          //   <IconText key="message" icon={<MessageFilled />} text={item.message} />,
+          // ]}
         >
           <List.Item.Meta
-            title={
-              <a className={styles.listItemMetaTitle} href={item.href}>
-                {item.title}
-              </a>
-            }
+            // title={
+            //   <a className={styles.listItemMetaTitle} href={item.href}>
+            //     {item.title}
+            //   </a>
+            // }
+            title={item.title}
             description={
               <span>
-                <Tag>Ant Design</Tag>
-                <Tag>设计语言</Tag>
-                <Tag>蚂蚁金服</Tag>
+                <Tag>{item.type}</Tag>
               </span>
             }
           />

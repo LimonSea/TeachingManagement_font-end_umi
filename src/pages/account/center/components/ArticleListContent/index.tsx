@@ -5,21 +5,21 @@ import styles from './index.less';
 
 export interface ApplicationsProps {
   data: {
-    content?: string;
+    desc?: string;
     updatedAt?: any;
     avatar?: string;
     owner?: string;
-    href?: string;
   };
 }
 const ArticleListContent: React.FC<ApplicationsProps> = ({
-  data: { content, updatedAt, avatar, owner, href },
+  data: { desc, updatedAt, avatar, owner },
 }) => (
   <div className={styles.listContent}>
-    <div className={styles.description}>{content}</div>
+    <div className={styles.description}>{desc}</div>
     <div className={styles.extra}>
       <Avatar src={avatar} size="small" />
-      <a href={href}>{owner}</a> 发布在 <a href={href}>{href}</a>
+      {/* <a href={href}>{owner}</a> 发布在 <a href={href}>{href}</a> */}
+      <a>{owner}</a>
       <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
     </div>
   </div>

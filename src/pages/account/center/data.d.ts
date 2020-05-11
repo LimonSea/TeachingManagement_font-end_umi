@@ -33,7 +33,7 @@ export interface CurrentUser {
   email: string;
   signature: string;
   title: string;
-  group: string;
+  groupName: string;
   tags: TagType[];
   notifyCount: number;
   unreadCount: number;
@@ -51,24 +51,28 @@ export interface Member {
 
 export interface ListItemDataType {
   id: string;
-  owner: string;
   title: string;
   avatar: string;
-  cover: string;
-  status: 'normal' | 'exception' | 'active' | 'success';
-  percent: number;
-  logo: string;
-  href: string;
-  body?: any;
+  authorId: string;
+  owner: string;
+  type: string;
+  status: string;
   updatedAt: number;
   createdAt: number;
-  subDescription: string;
-  description: string;
-  activeUser: number;
-  newUser: number;
-  star: number;
-  like: number;
-  message: number;
+  desc: string;
   content: string;
-  members: Member[];
+
+  cover?: string;
+  percent?: number;
+  logo?: string;
+  href?: string;
+  body?: any;
+  subDescription?: string;
+  description?: string;
+  activeUser?: number;
+  newUser?: number;
+  star?: number;
+  like?: number;
+  message?: number;
+  members?: Member[];
 }

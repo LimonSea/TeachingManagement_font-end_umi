@@ -11,40 +11,49 @@ import Applications from './components/Applications';
 import { CurrentUser, TagType } from './data.d';
 import styles from './Center.less';
 
-const operationTabList = [
-  {
-    key: 'articles',
-    tab: (
-      <span>
-        文章 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'applications',
-    tab: (
-      <span>
-        应用 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-  {
-    key: 'projects',
-    tab: (
-      <span>
-        项目 <span style={{ fontSize: 14 }}>(8)</span>
-      </span>
-    ),
-  },
-];
-
 interface CenterProps extends RouteChildrenProps {
   dispatch: Dispatch<any>;
+  match: {
+    params: {
+      id: string;
+    };
+  };
   currentUser: Partial<CurrentUser>;
+  articleCount: number;
+  projectCount: number;
   currentUserLoading: boolean;
 }
 interface CenterState {
   tabKey?: 'articles' | 'applications' | 'projects';
+}
+
+const operationTabList = (articleCount: number, projectCount: number) => {
+  return [
+    {
+      key: 'articles',
+      tab: (
+        <span>
+          文章 <span style={{ fontSize: 14 }}>({articleCount})</span>
+        </span>
+      ),
+    },
+    {
+      key: 'applications',
+      tab: (
+        <span>
+          应用 <span style={{ fontSize: 14 }}>({projectCount})</span>
+        </span>
+      ),
+    },
+    {
+      key: 'projects',
+      tab: (
+        <span>
+          项目 <span style={{ fontSize: 14 }}>(8)</span>
+        </span>
+      ),
+    },
+  ];
 }
 
 const TagList: React.FC<{ tags: CurrentUser['tags'] }> = ({ tags }) => {
@@ -103,24 +112,6 @@ const TagList: React.FC<{ tags: CurrentUser['tags'] }> = ({ tags }) => {
 };
 
 class Center extends Component<CenterProps, CenterState> {
-  // static getDerivedStateFromProps(
-  //   props: accountAndcenterProps,
-  //   state: accountAndcenterState,
-  // ) {
-  //   const { match, location } = props;
-  //   const { tabKey } = state;
-  //   const path = match && match.path;
-
-  //   const urlTabKey = location.pathname.replace(`${path}/`, '');
-  //   if (urlTabKey && urlTabKey !== '/' && tabKey !== urlTabKey) {
-  //     return {
-  //       tabKey: urlTabKey,
-  //     };
-  //   }
-
-  //   return null;
-  // }
-
   state: CenterState = {
     tabKey: 'articles',
   };
@@ -128,12 +119,20 @@ class Center extends Component<CenterProps, CenterState> {
   public input: Input | null | undefined = undefined;
 
   componentDidMount() {
-    const { dispatch } = this.props;
+    const { dispatch, match } = this.props;
     dispatch({
       type: 'accountAndcenter/fetchCurrent',
+      payload: {
+        id: match.params.id,
+      }
     });
     dispatch({
       type: 'accountAndcenter/fetch',
+      payload: {
+        authorId: match.params.id,
+        currentPage: 1,
+        count: 10,
+      }
     });
   }
 
@@ -175,14 +174,14 @@ class Center extends Component<CenterProps, CenterState> {
             marginRight: 8,
           }}
         />
-        {currentUser.group}
+        {currentUser.groupName}
       </p>
     </div>
   );
 
   render() {
     const { tabKey } = this.state;
-    const { currentUser = {}, currentUserLoading } = this.props;
+    const { currentUser = {}, currentUserLoading, articleCount = 0, projectCount = 0 } = this.props;
     const dataLoading = currentUserLoading || !(currentUser && Object.keys(currentUser).length);
     return (
       <GridContent>
@@ -222,7 +221,7 @@ class Center extends Component<CenterProps, CenterState> {
             <Card
               className={styles.tabsCard}
               bordered={false}
-              tabList={operationTabList}
+              tabList={operationTabList(articleCount, projectCount)}
               activeTabKey={tabKey}
               onTabChange={this.onTabChange}
             >
@@ -244,6 +243,8 @@ export default connect(
     accountAndcenter: ModalState;
   }) => ({
     currentUser: accountAndcenter.currentUser,
+    articleCount: accountAndcenter.articleCount,
+    projectCount: accountAndcenter.projectCount,
     currentUserLoading: loading.effects['accountAndcenter/fetchCurrent'],
   }),
 )(Center);

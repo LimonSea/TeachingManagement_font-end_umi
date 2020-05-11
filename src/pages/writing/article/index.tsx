@@ -56,7 +56,8 @@ const BasicForm: FC<BasicFormProps> = (props) => {
       type: 'articleForm/submitForm',
       payload: {
         title: values.title,
-        content: values.content.toHTML()
+        content: values.content.toHTML(),
+        desc: values.content.toText().slice(0, 140),
       },
     });
   };
