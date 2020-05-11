@@ -19,7 +19,6 @@ export default defineConfig({
   dva: {
     hmr: true,
   },
-  locale: {},
   dynamicImport: {
     loading: '@/components/PageLoading/index',
   },
@@ -69,6 +68,16 @@ export default defineConfig({
           Routes: ['src/pages/Authorized'],
           authority: ['admin', 'user'],
           routes: [
+            {
+              path: '/writing',
+              routes: [
+                {
+                  name: '写文章',
+                  path: '/writing/article',
+                  component: './writing/article',
+                },
+              ]
+            },
             {
               path: '/dashboard',
               name: 'Dashboard',
