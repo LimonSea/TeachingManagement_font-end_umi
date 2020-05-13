@@ -1,7 +1,6 @@
-import { Avatar } from 'antd';
 import React from 'react';
-import moment from 'moment';
 import styles from './index.less';
+import moment from 'moment';
 
 export interface ApplicationsProps {
   data: {
@@ -9,18 +8,16 @@ export interface ApplicationsProps {
     updatedAt?: any;
     avatar?: string;
     owner?: string;
+    authorId?: number;
   };
 }
 const ArticleListContent: React.FC<ApplicationsProps> = ({
-  data: { desc, updatedAt, avatar, owner },
+  data: { desc, updatedAt },
 }) => (
   <div className={styles.listContent}>
     <div className={styles.description}>{desc}</div>
     <div className={styles.extra}>
-      <Avatar src={avatar} size="small" />
-      {/* <a href={href}>{owner}</a> 发布在 <a href={href}>{href}</a> */}
-      <a>{owner}</a>
-      <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
+      {moment(updatedAt).format('YYYY-MM-DD HH:mm')}
     </div>
   </div>
 );

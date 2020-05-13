@@ -60,7 +60,9 @@ const Model: LoginModelType = {
 
     logout() {
       const { redirect } = getPageQuery();
-      // Note: There may be security issues, please note
+      // 删除token
+      localStorage.removeItem('token');
+      // 跳转链接
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({
           pathname: '/user/login',

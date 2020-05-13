@@ -3,7 +3,6 @@ import { defineConfig, utils } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import webpackPlugin from './plugin.config';
-
 const { winPath } = utils; // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
 
@@ -75,6 +74,16 @@ export default defineConfig({
                   name: '写文章',
                   path: '/writing/article',
                   component: './writing/article',
+                },
+              ],
+            },
+            {
+              path: '/article',
+              routes: [
+                {
+                  name: '文章详情',
+                  path: '/article/:id',
+                  component: './article/',
                 },
               ]
             },
@@ -323,7 +332,7 @@ export default defineConfig({
           resourcePath: string;
         },
         _: string,
-        localName: string,
+        localName: string
       ) => {
         if (
           context.resourcePath.includes('node_modules') ||

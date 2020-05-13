@@ -15,7 +15,6 @@ interface BasicFormProps {
 const BasicForm: FC<BasicFormProps> = (props) => {
   const { submitting } = props;
   const [form] = Form.useForm();
-  const [showPublicUsers, setShowPublicUsers] = React.useState(false);
   const formItemLayout = {
     labelCol: {
       xs: {
@@ -62,11 +61,6 @@ const BasicForm: FC<BasicFormProps> = (props) => {
     });
   };
 
-  const onValuesChange = (changedValues: { [key: string]: any }) => {
-    const { publicType } = changedValues;
-    if (publicType) setShowPublicUsers(publicType === '2');
-  };
-
   return (
     <PageHeaderWrapper>
       <Card bordered={false}>
@@ -82,7 +76,6 @@ const BasicForm: FC<BasicFormProps> = (props) => {
             public: '1',
           }}
           onFinish={onFinish}
-          onValuesChange={onValuesChange}
         >
           <FormItem
             {...formItemLayout}

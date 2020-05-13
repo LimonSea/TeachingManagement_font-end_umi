@@ -2,7 +2,7 @@
 import { List, Tag } from 'antd';
 import React from 'react';
 
-import { connect } from 'umi';
+import { connect, Link } from 'umi';
 import ArticleListContent from '../ArticleListContent';
 import { ListItemDataType } from '../../data.d';
 import { ModalState } from '../../model';
@@ -35,12 +35,9 @@ const Articles: React.FC<Partial<ModalState>> = (props) => {
           // ]}
         >
           <List.Item.Meta
-            // title={
-            //   <a className={styles.listItemMetaTitle} href={item.href}>
-            //     {item.title}
-            //   </a>
-            // }
-            title={item.title}
+            title={
+              <Link to={`/article/${item.id}`}>{item.title}</Link>
+            }
             description={
               <span>
                 <Tag>{item.type}</Tag>

@@ -1,8 +1,8 @@
 import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Menu, Spin } from 'antd';
+import { Avatar, Menu, Button } from 'antd';
 import { ClickParam } from 'antd/es/menu';
 import React from 'react';
-import { history, ConnectProps, connect } from 'umi';
+import { history, ConnectProps, connect, Link } from 'umi';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import HeaderDropdown from '../HeaderDropdown';
@@ -75,15 +75,9 @@ class AvatarDropdown extends React.Component<GlobalHeaderRightProps> {
         </span>
       </HeaderDropdown>
     ) : (
-      <span className={`${styles.action} ${styles.account}`}>
-        <Spin
-          size="small"
-          style={{
-            marginLeft: 8,
-            marginRight: 8,
-          }}
-        />
-      </span>
+      <Link to="/user/login">
+        <Button size="small" type="primary">登录</Button>
+      </Link>
     );
   }
 }

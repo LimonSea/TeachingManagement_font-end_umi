@@ -31,6 +31,10 @@ const errorHandler = (error: { response: Response }): Response => {
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
+    if (response.status === 401) { // 401 的时候不弹窗
+      localStorage.removeItem('token');
+      return response;
+    }
 
     notification.error({
       message: `请求错误 ${status}: ${url}`,
