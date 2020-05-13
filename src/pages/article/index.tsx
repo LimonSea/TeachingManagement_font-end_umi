@@ -124,6 +124,7 @@ const Article: FC<ArticleProps> = (props) => {
             </Link>
           </div>
         }
+        <Divider orientation="right">评论 {article.commentsCount}</Divider>
         {
           _.map(article.comments, (item, index) => {
             return (

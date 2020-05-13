@@ -85,7 +85,7 @@ export default defineConfig({
                   path: '/article/:id',
                   component: './article/',
                 },
-              ]
+              ],
             },
             {
               path: '/dashboard',
