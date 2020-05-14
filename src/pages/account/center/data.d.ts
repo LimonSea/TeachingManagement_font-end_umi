@@ -26,21 +26,22 @@ export interface NoticeType {
 }
 
 export interface CurrentUser {
+  id: number;
   name: string;
   avatar: string;
-  id: string;
-  notice: NoticeType[];
   email: string;
   signature: string;
-  title: string;
+  mobile: string;
+  groupId: number;
   groupName: string;
-  tags: TagType[];
-  notifyCount: number;
-  unreadCount: number;
-  country: string;
-  geographic: GeographicType;
-  address: string;
-  phone: string;
+  title?: string;
+  notice?: NoticeType[];
+  tags?: TagType[];
+  notifyCount?: number;
+  unreadCount?: number;
+  country?: string;
+  geographic?: GeographicType;
+  address?: string;
 }
 
 export interface Member {
@@ -50,29 +51,27 @@ export interface Member {
 }
 
 export interface ListItemDataType {
-  id: string;
+  id: number;
   title: string;
   avatar: string;
   authorId: string;
   owner: string;
   type: string;
   status: string;
-  updatedAt: number;
-  createdAt: number;
   desc: string;
   content: string;
+  updatedAt: string;
+  createdAt: string;
+}
 
-  cover?: string;
-  percent?: number;
-  logo?: string;
-  href?: string;
-  body?: any;
-  subDescription?: string;
-  description?: string;
-  activeUser?: number;
-  newUser?: number;
-  star?: number;
-  like?: number;
-  message?: number;
-  members?: Member[];
+export interface ProjectListItemDataType {
+  id: number,
+  groupId: number,
+  cover: string,
+  title: string,
+  desc: string,
+  github: string,
+  status: string,
+  createdAt: string,
+  updatedAt: string,
 }

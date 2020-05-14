@@ -7,7 +7,6 @@ import { RouteChildrenProps } from 'react-router';
 import { ModalState } from './model';
 import Projects from './components/Projects';
 import Articles from './components/Articles';
-import Applications from './components/Applications';
 import { CurrentUser, TagType } from './data.d';
 import styles from './Center.less';
 
@@ -19,6 +18,7 @@ interface CenterProps extends RouteChildrenProps {
     };
   };
   currentUser: Partial<CurrentUser>;
+  isMe: boolean;
   articleCount: number;
   projectCount: number;
   currentUserLoading: boolean;
@@ -27,8 +27,8 @@ interface CenterState {
   tabKey?: 'articles' | 'applications' | 'projects';
 }
 
-const operationTabList = (articleCount: number, projectCount: number) => {
-  return [
+const operationTabList = (isMe: boolean, articleCount: number, projectCount: number) => {
+  return isMe ? [
     {
       key: 'articles',
       tab: (
@@ -38,21 +38,22 @@ const operationTabList = (articleCount: number, projectCount: number) => {
       ),
     },
     {
-      key: 'applications',
-      tab: (
-        <span>
-          应用 <span style={{ fontSize: 14 }}>({projectCount})</span>
-        </span>
-      ),
-    },
-    {
       key: 'projects',
       tab: (
         <span>
-          项目 <span style={{ fontSize: 14 }}>(8)</span>
+          项目 <span style={{ fontSize: 14 }}>({projectCount})</span>
         </span>
       ),
     },
+  ] : [
+    {
+      key: 'articles',
+      tab: (
+        <span>
+          文章 <span style={{ fontSize: 14 }}>({articleCount})</span>
+        </span>
+      ),
+    }
   ];
 }
 
@@ -127,7 +128,7 @@ class Center extends Component<CenterProps, CenterState> {
       }
     });
     dispatch({
-      type: 'accountAndcenter/fetch',
+      type: 'accountAndcenter/fetchArticle',
       payload: {
         authorId: match.params.id,
         currentPage: 1,
@@ -148,9 +149,6 @@ class Center extends Component<CenterProps, CenterState> {
   renderChildrenByTabKey = (tabKey: CenterState['tabKey']) => {
     if (tabKey === 'projects') {
       return <Projects />;
-    }
-    if (tabKey === 'applications') {
-      return <Applications />;
     }
     if (tabKey === 'articles') {
       return <Articles />;
@@ -181,7 +179,7 @@ class Center extends Component<CenterProps, CenterState> {
 
   render() {
     const { tabKey } = this.state;
-    const { currentUser = {}, currentUserLoading, articleCount = 0, projectCount = 0 } = this.props;
+    const { currentUser = {}, currentUserLoading, isMe = false, articleCount = 0, projectCount = 0 } = this.props;
     const dataLoading = currentUserLoading || !(currentUser && Object.keys(currentUser).length);
     return (
       <GridContent>
@@ -221,7 +219,7 @@ class Center extends Component<CenterProps, CenterState> {
             <Card
               className={styles.tabsCard}
               bordered={false}
-              tabList={operationTabList(articleCount, projectCount)}
+              tabList={operationTabList(isMe, articleCount, projectCount)}
               activeTabKey={tabKey}
               onTabChange={this.onTabChange}
             >
@@ -243,6 +241,7 @@ export default connect(
     accountAndcenter: ModalState;
   }) => ({
     currentUser: accountAndcenter.currentUser,
+    isMe: accountAndcenter.isMe,
     articleCount: accountAndcenter.articleCount,
     projectCount: accountAndcenter.projectCount,
     currentUserLoading: loading.effects['accountAndcenter/fetchCurrent'],
