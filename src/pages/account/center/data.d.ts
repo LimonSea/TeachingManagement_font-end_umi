@@ -47,7 +47,7 @@ export interface CurrentUser {
 export interface Member {
   avatar: string;
   name: string;
-  id: string;
+  id: number;
 }
 
 export interface ListItemDataType {
@@ -72,6 +72,7 @@ export interface ProjectListItemDataType {
   desc: string,
   github: string,
   status: string,
+  users: Member[],
   createdAt: string,
   updatedAt: string,
 }

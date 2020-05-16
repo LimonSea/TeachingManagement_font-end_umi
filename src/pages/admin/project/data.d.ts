@@ -14,7 +14,7 @@ export interface BasicListItemDataType {
   status: string;
   updatedAt: number;
   createdAt: number;
-  members?: Member[];
+  users?: Member[];
 
   owner?: string;
   avatar?: string;

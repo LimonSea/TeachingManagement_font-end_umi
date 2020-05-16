@@ -1,24 +1,30 @@
 import { Effect, Reducer } from 'umi';
-import { addList, queryList, removeList, updateList } from './service';
+import { submit, update, queryList, deleteProject, queryMember } from './service';
 
-import { BasicListItemDataType } from './data.d';
+import { BasicListItemDataType, Member } from './data.d';
 
 export interface StateType {
   list: BasicListItemDataType[];
   totalCount: number;
+  users: Member[];
 }
 
 export interface ModelType {
   namespace: string;
   state: StateType;
   effects: {
-    fetch: Effect;
+    fetchList: Effect;
     appendFetch: Effect;
-    submit: Effect;
+    fetchMember: Effect;
+    submitAndUpdate: Effect;
+    delete: Effect;
   };
   reducers: {
     queryList: Reducer<StateType>;
     appendList: Reducer<StateType>;
+    queryMember: Reducer<StateType>;
+    addToList: Reducer<StateType>;
+    updateList: Reducer<StateType>;
   };
 }
 
@@ -28,50 +34,101 @@ const Model: ModelType = {
   state: {
     list: [],
     totalCount: 0,
+    users: [],
   },
 
   effects: {
-    *fetch({ payload }, { call, put }) {
+    *fetchList({ payload }, { call, put }) {
       const response = yield call(queryList, payload);
       yield put({
         type: 'queryList',
         payload: response,
       });
     },
-    *appendFetch({ payload }, { call, put }) {
+    *appendFetch({ payload }, { call, put }) { // TODO:还没做
       const response = yield call(queryList, payload);
       yield put({
         type: 'appendList',
         payload: response,
       });
     },
-    *submit({ payload }, { call, put }) {
-      let callback;
-      if (payload.id) {
-        callback = Object.keys(payload).length === 1 ? removeList : updateList;
-      } else {
-        callback = addList;
+    *fetchMember({ payload }, { call, put }) {
+      const response = yield call(queryMember, payload);
+      if (response.status === 'ok') {
+        yield put({
+          type: 'queryMember',
+          payload: response,
+        });
       }
-      const response = yield call(callback, payload); // post
-      yield put({
-        type: 'queryList',
-        payload: response,
-      });
+    },
+    *submitAndUpdate({ payload }, { call, put }) {
+      // 更新
+      if (payload.id) {
+        const response = yield call(update, payload);
+        if (response.status === 'ok') {
+          // 假写
+          yield put({
+            type: 'updateList',
+            payload,
+          });
+        }
+      } else {
+        const response = yield call(submit, payload);
+        if (response.status === 'ok') {
+          // 假写
+          yield put({
+            type: 'addToList',
+            payload,
+          });
+        }
+
+      }
+    },
+    *delete({ payload }, { call, put }) {
+      const response = yield call(deleteProject, payload);
+      if (response.status === 'ok') {
+        yield put({
+          type: 'queryMember',
+          payload: response,
+        });
+      }
     },
   },
 
   reducers: {
     queryList(state, action) {
       return {
-        ...state,
+        ...(state as StateType),
         list: action.payload.data,
         totalCount: action.payload.totalCount,
       };
     },
-    appendList(state = { list: [], totalCount: 0 }, action) {
+    appendList(state, action) {
       return {
-        ...state,
-        list: state.list.concat(action.payload.data),
+        ...(state as StateType),
+        list: (state as StateType).list.concat(action.payload.data),
+      };
+    },
+    queryMember(state, action) {
+      return {
+        ...(state as StateType),
+        users: action.payload.users,
+      };
+    },
+    addToList(state, action) {
+      return {
+        ...(state as StateType),
+        list: [ ...action.payload, ...(state as StateType).list],
+      };
+    },
+    updateList(state, action) {
+      const newList = (state as StateType).list.map((item) => {
+        if (item.id === action.payload.id) return action.payload;
+        return item;
+      })
+      return {
+        ...(state as StateType),
+        list: newList,
       };
     },
   },

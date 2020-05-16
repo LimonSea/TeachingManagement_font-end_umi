@@ -1,18 +1,20 @@
 import React, { FC, useEffect } from 'react';
 import moment from 'moment';
-import { Modal, Result, Button, Form, DatePicker, Input, Select } from 'antd';
-import { BasicListItemDataType } from '../data.d';
+import { Modal, Result, Button, Form, DatePicker, Input, Select, Radio } from 'antd';
+import { BasicListItemDataType, Member } from '../data.d';
 import styles from '../style.less';
 
 interface OperationModalProps {
   done: boolean;
   visible: boolean;
   current: Partial<BasicListItemDataType> | undefined;
+  users: Member[];
   onDone: () => void;
   onSubmit: (values: BasicListItemDataType) => void;
   onCancel: () => void;
 }
 
+const colorList = ['#f05654', '#ffc64b', '#eaff56', '#bddd22', '#7bcfa6', '#177cb0', '#8d4bbb' ];
 const { TextArea } = Input;
 const formLayout = {
   labelCol: { span: 7 },
@@ -21,28 +23,22 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, visible, current, onDone, onCancel, onSubmit } = props;
+  const { done, visible, current, users, onDone, onCancel, onSubmit } = props;
 
   useEffect(() => {
     if (form && !visible) {
       form.resetFields();
     }
-  }, [props.visible]);
-
-  useEffect(() => {
-    if (current) {
+    if (form && visible && current) {
       form.setFieldsValue({
         ...current,
+        users: current.users?.map(item => item.id) || [],
         createdAt: current.createdAt ? moment(current.createdAt) : null,
       });
     }
-  }, [props.current]);
+  }, [props.visible]);
 
-  const handleSubmit = () => {
-    if (!form) return;
-    form.submit();
-  };
-
+  // 表单提交
   const handleFinish = (values: { [key: string]: any }) => {
     if (onSubmit) {
       onSubmit(values as BasicListItemDataType);
@@ -51,7 +47,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   const modalFooter = done
     ? { footer: null, onCancel: onDone }
-    : { okText: '保存', cancelText: '取消', onOk: handleSubmit, onCancel };
+    : { okText: '保存', cancelText: '取消', onOk: () => form.submit(), onCancel };
 
   const getModalContent = () => {
     if (done) {
@@ -59,7 +55,6 @@ const OperationModal: FC<OperationModalProps> = (props) => {
         <Result
           status="success"
           title="操作成功"
-          subTitle="一系列的信息描述，很短同样也可以带标点。"
           extra={
             <Button type="primary" onClick={onDone}>
               知道了
@@ -79,6 +74,23 @@ const OperationModal: FC<OperationModalProps> = (props) => {
           <Input placeholder="请输入" />
         </Form.Item>
         <Form.Item
+          name="cover"
+          label="项目代表色"
+          rules={[{ required: true, message: '请选择一个颜色' }]}
+        >
+          <Radio.Group>
+            {
+              colorList.map((item) => {
+                return (
+                  <Radio value={item} key={item}>
+                    <div style={{width:16, height:16, backgroundColor:item, display: 'inline-block', borderRadius: 2}}/>
+                  </Radio>
+                )
+              })
+            }
+          </Radio.Group>
+        </Form.Item>
+        <Form.Item
           name="createdAt"
           label="开始时间"
           rules={[{ required: true, message: '请选择开始时间' }]}
@@ -91,19 +103,24 @@ const OperationModal: FC<OperationModalProps> = (props) => {
           />
         </Form.Item>
         <Form.Item
-          name="managers"
+          name="users"
           label="项目组成员"
           rules={[{ required: true, message: '请选择项目组成员' }]}
         >
-          <Select placeholder="请选择">
-            <Select.Option value="付晓晓">付晓晓</Select.Option>
-            <Select.Option value="周毛毛">周毛毛</Select.Option>
+          <Select mode="multiple" placeholder="请选择">
+            {
+              users?.map((item) => {
+                return (
+                  <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
+                )
+              })
+            }
           </Select>
         </Form.Item>
         <Form.Item
           name="desc"
           label="项目描述"
-          rules={[{ message: '请输入至少五个字符的项目描述！', min: 5 }]}
+          rules={[{ required: true, message: '请输入至少五个字符的项目描述！', min: 5 }]}
         >
           <TextArea rows={3} placeholder="请输入至少五个字符" />
         </Form.Item>

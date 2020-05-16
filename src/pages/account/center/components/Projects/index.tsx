@@ -1,4 +1,4 @@
-import { Card, List } from 'antd';
+import { Card, List, Avatar } from 'antd';
 import React from 'react';
 
 import { connect } from 'umi';
@@ -19,20 +19,20 @@ const Projects: React.FC<Partial<ModalState>> = (props) => {
         dataSource={projectList}
         renderItem={(item) => (
           <List.Item>
-            <Card className={styles.card} hoverable cover={<img alt={item.title} src={item.cover}/>}>
+            <Card className={styles.card} hoverable cover={<Avatar src={item.cover} shape="square" size={150} style={{backgroundColor: item.cover}}>{item.title}</Avatar>}>
               <Card.Meta title={<a>{item.title}</a>} description={item.desc} />
               <div className={styles.cardItemContent}>
                 <span>{moment(item.updatedAt).fromNow()}</span>
                 <div className={styles.avatarList}>
-                  {/* <AvatarList size="small">
-                    {item.members.map((member) => (
+                  <AvatarList size="small">
+                    {item.users.map((user: any) => (
                       <AvatarList.Item
-                        key={`${item.id}-avatar-${member.id}`}
-                        src={member.avatar}
-                        tips={member.name}
+                        key={`${item.id}-avatar-${user.id}`}
+                        src={user.avatar}
+                        tips={user.name}
                       />
                     ))}
-                  </AvatarList> */}
+                  </AvatarList>
                 </div>
               </div>
             </Card>
