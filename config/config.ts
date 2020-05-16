@@ -88,6 +88,20 @@ export default defineConfig({
               ],
             },
             {
+              path: '/admin',
+              name: '管理中心',
+              icon: 'dashboard',
+              authority: ['admin'],
+              routes: [
+                {
+                  name: '项目管理',
+                  icon: 'smile',
+                  path: '/admin/project',
+                  component: './admin/project',
+                },
+              ],
+            },
+            {
               path: '/dashboard',
               name: 'Dashboard',
               icon: 'dashboard',

@@ -4,6 +4,7 @@ import { queryCurrent, queryArticleList, queryProjectList } from './service';
 
 export interface ModalState {
   currentUser: Partial<CurrentUser>;
+  pageCurrentUser: Partial<CurrentUser>;
   isMe: boolean,
   list: ListItemDataType[];
   projectList: ProjectListItemDataType[];
