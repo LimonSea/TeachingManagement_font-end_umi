@@ -1,11 +1,10 @@
 import { Effect, Reducer } from 'umi';
-import { CurrentUser, GeographicItemType } from './data.d';
-import { queryCity, queryCurrent, queryProvince, query as queryUsers } from './service';
+import { CurrentUser } from './data.d';
+import { queryCurrent, updateUser } from './service';
+import { message } from 'antd';
 
 export interface ModalState {
   currentUser?: Partial<CurrentUser>;
-  province?: GeographicItemType[];
-  city?: GeographicItemType[];
   isLoading?: boolean;
 }
 
@@ -14,16 +13,10 @@ export interface ModelType {
   state: ModalState;
   effects: {
     fetchCurrent: Effect;
-    fetch: Effect;
-    fetchProvince: Effect;
-    fetchCity: Effect;
+    updateBaseInfo: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<ModalState>;
-    changeNotifyCount: Reducer<ModalState>;
-    setProvince: Reducer<ModalState>;
-    setCity: Reducer<ModalState>;
-    changeLoading: Reducer<ModalState>;
   };
 }
 
@@ -32,19 +25,10 @@ const Model: ModelType = {
 
   state: {
     currentUser: {},
-    province: [],
-    city: [],
     isLoading: false,
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
-      yield put({
-        type: 'save',
-        payload: response,
-      });
-    },
     *fetchCurrent(_, { call, put }) {
       const response = yield call(queryCurrent);
       yield put({
@@ -52,23 +36,15 @@ const Model: ModelType = {
         payload: response,
       });
     },
-    *fetchProvince(_, { call, put }) {
-      yield put({
-        type: 'changeLoading',
-        payload: true,
-      });
-      const response = yield call(queryProvince);
-      yield put({
-        type: 'setProvince',
-        payload: response,
-      });
-    },
-    *fetchCity({ payload }, { call, put }) {
-      const response = yield call(queryCity, payload);
-      yield put({
-        type: 'setCity',
-        payload: response,
-      });
+    *updateBaseInfo({ payload }, { call, put }) {
+      const response = yield call(updateUser, payload);
+      if (response.status === 'ok') {
+        yield put({
+          type: 'saveCurrentUser',
+          payload,
+        });
+        message.success('修改成功');
+      }
     },
   },
 
@@ -76,38 +52,13 @@ const Model: ModelType = {
     saveCurrentUser(state, action) {
       return {
         ...state,
-        currentUser: action.payload || {},
-      };
-    },
-    changeNotifyCount(state = {}, action) {
-      return {
-        ...state,
         currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload.totalCount,
-          unreadCount: action.payload.unreadCount,
+          ...state?.currentUser,
+          ...action.payload
         },
       };
     },
-    setProvince(state, action) {
-      return {
-        ...state,
-        province: action.payload,
-      };
-    },
-    setCity(state, action) {
-      return {
-        ...state,
-        city: action.payload,
-      };
-    },
-    changeLoading(state, action) {
-      return {
-        ...state,
-        isLoading: action.payload,
-      };
-    },
-  },
+  }
 };
 
 export default Model;

@@ -3,6 +3,7 @@ import { Avatar, Tooltip } from 'antd';
 import React from 'react';
 import classNames from 'classnames';
 import styles from './index.less';
+import { UserOutlined } from '@ant-design/icons';
 
 export declare type SizeType = number | 'small' | 'default' | 'large';
 
@@ -37,10 +38,10 @@ const Item: React.FC<AvatarItemProps> = ({ src, size, tips, onClick = () => {} }
     <li className={cls} onClick={onClick}>
       {tips ? (
         <Tooltip title={tips}>
-          <Avatar src={src} size={size} style={{ cursor: 'pointer' }} />
+          <Avatar src={src} size={size} style={{ cursor: 'pointer' }} icon={<UserOutlined/>} />
         </Tooltip>
       ) : (
-        <Avatar src={src} size={size} />
+        <Avatar src={src} size={size} icon={<UserOutlined/>}/>
       )}
     </li>
   );

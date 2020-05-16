@@ -4,6 +4,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { NoticeIconData } from './index';
 import styles from './NoticeList.less';
+import { UserOutlined } from '@ant-design/icons';
 
 export interface NoticeIconTabProps {
   count?: number;
@@ -57,7 +58,7 @@ const NoticeList: React.SFC<NoticeIconTabProps> = ({
           // eslint-disable-next-line no-nested-ternary
           const leftIcon = item.avatar ? (
             typeof item.avatar === 'string' ? (
-              <Avatar className={styles.avatar} src={item.avatar} />
+              <Avatar className={styles.avatar} src={item.avatar} icon={<UserOutlined/>} />
             ) : (
               <span className={styles.iconElement}>{item.avatar}</span>
             )

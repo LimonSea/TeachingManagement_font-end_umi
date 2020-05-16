@@ -3,16 +3,6 @@ export interface TagType {
   label: string;
 }
 
-export interface GeographicItemType {
-  name: string;
-  id: string;
-}
-
-export interface GeographicType {
-  province: GeographicItemType;
-  city: GeographicItemType;
-}
-
 export interface NoticeType {
   id: string;
   title: string;
@@ -25,19 +15,20 @@ export interface NoticeType {
 }
 
 export interface CurrentUser {
+  id: number;
   name: string;
   avatar: string;
-  id: string;
-  notice: NoticeType[];
   email: string;
   signature: string;
-  title: string;
-  group: string;
-  tags: TagType[];
-  notifyCount: number;
-  unreadCount: number;
-  country: string;
-  geographic: GeographicType;
-  address: string;
-  phone: string;
+  mobile: string;
+  groupId: number;
+  groupName: string;
+  title?: string;
+  notice?: NoticeType[];
+  tags?: TagType[];
+  notifyCount?: number;
+  unreadCount?: number;
+  country?: string;
+  geographic?: GeographicType;
+  address?: string;
 }

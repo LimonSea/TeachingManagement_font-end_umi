@@ -1,99 +1,54 @@
-import { UploadOutlined } from '@ant-design/icons';
-import { Button, Input, Select, Upload, Form, message } from 'antd';
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
+import { Button, Input, Upload, Form, Avatar } from 'antd';
 import { connect } from 'umi';
 import React, { Component } from 'react';
 import { CurrentUser } from '../data.d';
-import GeographicView from './GeographicView';
-import PhoneView from './PhoneView';
 import styles from './BaseView.less';
 
-const { Option } = Select; // 头像组件 方便以后独立，增加裁剪之类的功能
-
-const AvatarView = ({ avatar }: { avatar: string }) => (
-  <>
-    <div className={styles.avatar_title}>头像</div>
-    <div className={styles.avatar}>
-      <img src={avatar} alt="avatar" />
-    </div>
-    <Upload showUploadList={false}>
-      <div className={styles.button_view}>
-        <Button>
-          <UploadOutlined />
-          更换头像
-        </Button>
-      </div>
-    </Upload>
-  </>
-);
-
-interface SelectItem {
-  label: string;
-  key: string;
+const getBase64 = (img: any, callback: any) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
 }
-
-const validatorGeographic = (
-  _: any,
-  value: {
-    province: SelectItem;
-    city: SelectItem;
-  },
-  callback: (message?: string) => void,
-) => {
-  const { province, city } = value;
-
-  if (!province.key) {
-    callback('Please input your province!');
-  }
-
-  if (!city.key) {
-    callback('Please input your city!');
-  }
-
-  callback();
-};
-
-const validatorPhone = (rule: any, value: string, callback: (message?: string) => void) => {
-  const values = value.split('-');
-
-  if (!values[0]) {
-    callback('Please input your area code!');
-  }
-
-  if (!values[1]) {
-    callback('Please input your phone number!');
-  }
-
-  callback();
-};
 
 interface BaseViewProps {
   currentUser?: CurrentUser;
+  onfinish: any;
+}
+
+interface updateBaseInfoValues {
+  mail: string;
+  mobile: string;
+  name: string;
+  signature: string;
 }
 
 class BaseView extends Component<BaseViewProps> {
   view: HTMLDivElement | undefined = undefined;
 
-  getAvatarURL() {
-    const { currentUser } = this.props;
+  state: {avatar: string, dbavatar: string} = {
+    avatar: this.props.currentUser?.avatar || '', // 展示的头像地址
+    dbavatar: '', // 存储到数据库的头像地址
+  }
 
-    if (currentUser) {
-      if (currentUser.avatar) {
-        return currentUser.avatar;
-      }
-
-      const url = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
-      return url;
+  handleChange = (info: any) => {
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj, (imageUrl: any) => {
+        this.setState({
+          avatar: imageUrl,
+          dbavatar: info.file.response.name,
+        })
+      })
     }
-
-    return '';
   }
 
   getViewDom = (ref: HTMLDivElement) => {
     this.view = ref;
   };
 
-  handleFinish = () => {
-    message.success('更新基本信息成功');
+  handleFinish = (values: updateBaseInfoValues) => {
+    if (this.state.dbavatar) this.props.onfinish({...values, avatar: this.state.dbavatar});
+    else this.props.onfinish({...values});
   };
 
   render() {
@@ -108,7 +63,7 @@ class BaseView extends Component<BaseViewProps> {
             hideRequiredMark
           >
             <Form.Item
-              name="email"
+              name="mail"
               label="邮箱"
               rules={[
                 {
@@ -117,7 +72,7 @@ class BaseView extends Component<BaseViewProps> {
                 },
               ]}
             >
-              <Input />
+              <Input disabled/>
             </Form.Item>
             <Form.Item
               name="name"
@@ -132,7 +87,7 @@ class BaseView extends Component<BaseViewProps> {
               <Input />
             </Form.Item>
             <Form.Item
-              name="profile"
+              name="signature"
               label="个人简介"
               rules={[
                 {
@@ -141,67 +96,19 @@ class BaseView extends Component<BaseViewProps> {
                 },
               ]}
             >
-              <Input.TextArea placeholder="个人简介" rows={4} />
-            </Form.Item>
-            <Form.Item
-              name="country"
-              label="国家/地区"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入您的国家或地区!',
-                },
-              ]}
-            >
-              <Select
-                style={{
-                  maxWidth: 220,
-                }}
-              >
-                <Option value="China">中国</Option>
-              </Select>
-            </Form.Item>
-            <Form.Item
-              name="geographic"
-              label="所在省市"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入您的所在省市!',
-                },
-                {
-                  validator: validatorGeographic,
-                },
-              ]}
-            >
-              <GeographicView />
-            </Form.Item>
-            <Form.Item
-              name="address"
-              label="街道地址"
-              rules={[
-                {
-                  required: true,
-                  message: '请输入您的街道地址!',
-                },
-              ]}
-            >
               <Input />
             </Form.Item>
             <Form.Item
-              name="phone"
+              name="mobile"
               label="联系电话"
               rules={[
                 {
                   required: true,
                   message: '请输入您的联系电话!',
                 },
-                {
-                  validator: validatorPhone,
-                },
               ]}
             >
-              <PhoneView />
+              <Input disabled/>
             </Form.Item>
             <Form.Item>
               <Button htmlType="submit" type="primary">
@@ -211,7 +118,24 @@ class BaseView extends Component<BaseViewProps> {
           </Form>
         </div>
         <div className={styles.right}>
-          <AvatarView avatar={this.getAvatarURL()} />
+          <div className={styles.avatar_title}>头像</div>
+          <div className={styles.avatar}>
+            <img src={this.state.avatar} alt="默认头像" />
+          </div>
+          <Upload
+            accept='.jpg,.png,.jpeg'
+            action='/server/upload'
+            data={{type: 'avatar'}}
+            onChange={this.handleChange}
+            showUploadList={false}
+          >
+            <div className={styles.button_view}>
+              <Button>
+                <UploadOutlined />
+                更换头像
+              </Button>
+            </div>
+          </Upload>
         </div>
       </div>
     );

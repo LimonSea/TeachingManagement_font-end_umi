@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState, useEffect } from 'react';
-import { DownOutlined, PlusOutlined } from '@ant-design/icons';
+import { DownOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import {
@@ -210,7 +210,7 @@ export const Project: FC<ProjectProps> = (props) => {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={item.cover} shape="square" size="large" />}
+                    avatar={<Avatar src={item.cover} shape="square" size="large" icon={<UserOutlined/>}/>}
                     title={<a href={item.href}>{item.title}</a>}
                     description={item.desc}
                   />

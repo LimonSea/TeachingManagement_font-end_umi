@@ -22,6 +22,13 @@ interface SettingsState {
   };
   selectKey: SettingsStateKeys;
 }
+interface updateBaseInfoValues {
+  avatar: string;
+  mail: string;
+  mobile: string;
+  name: string;
+  signature: string;
+}
 
 class Settings extends Component<SettingsProps, SettingsState> {
   main: HTMLDivElement | undefined = undefined;
@@ -74,12 +81,10 @@ class Settings extends Component<SettingsProps, SettingsState> {
     if (!this.main) {
       return;
     }
-
     requestAnimationFrame(() => {
       if (!this.main) {
         return;
       }
-
       let mode: 'inline' | 'horizontal' = 'inline';
       const { offsetWidth } = this.main;
 
@@ -90,19 +95,30 @@ class Settings extends Component<SettingsProps, SettingsState> {
       if (window.innerWidth < 768 && offsetWidth > 400) {
         mode = 'horizontal';
       }
-
       this.setState({
         mode,
       });
     });
   };
 
+  updateBaseInfo = (values: updateBaseInfoValues) => {
+    const { dispatch, currentUser } = this.props;
+    console.log('updateBaseInfo', values)
+    dispatch({
+      type: 'accountAndsettings/updateBaseInfo',
+      payload: {
+        id: currentUser.id,
+        ...values
+      },
+    })
+  }
+
   renderChildren = () => {
     const { selectKey } = this.state;
 
     switch (selectKey) {
       case 'base':
-        return <BaseView />;
+        return <BaseView onfinish={this.updateBaseInfo}/>;
 
       case 'security':
         return <SecurityView />;

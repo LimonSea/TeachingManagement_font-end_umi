@@ -1,4 +1,4 @@
-import { PlusOutlined, ContactsOutlined, ClusterOutlined } from '@ant-design/icons';
+import { PlusOutlined, ContactsOutlined, ClusterOutlined, TeamOutlined } from '@ant-design/icons';
 import { Avatar, Card, Col, Divider, Input, Row, Tag } from 'antd';
 import React, { Component, useState, useRef } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
@@ -204,7 +204,7 @@ class Center extends Component<CenterProps, CenterState> {
                         currentUser.notice.map((item) => (
                           <Col key={item.id} lg={24} xl={12}>
                             <Link to={item.href}>
-                              <Avatar size="small" src={item.logo} />
+                              <Avatar size="small" src={item.logo} icon={<TeamOutlined/>} />
                               {item.member}
                             </Link>
                           </Col>

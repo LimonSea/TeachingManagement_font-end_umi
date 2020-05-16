@@ -9,6 +9,7 @@ import moment from 'moment';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import _ from 'lodash';
+import { UserOutlined } from '@ant-design/icons';
 
 const FormItem = Form.Item;
 interface ArticleProps {
@@ -60,7 +61,7 @@ const Article: FC<ArticleProps> = (props) => {
         bodyStyle={{fontSize: 16, marginBottom: 24}}
       >
         <Space style={{display: 'flex', marginBottom: 24}}>
-          <Avatar src={article.avatar}/>
+          <Avatar src={article.avatar} icon={<UserOutlined/>}/>
           <Link to={`/account/center/${article.authorId}`}>{article.owner}</Link>发布于
           <Link to={`/group/center/${article.groupId}`}>{article.groupName}</Link>
           {moment(article.updatedAt).format('YYYY-MM-DD HH:mm')}
@@ -84,7 +85,7 @@ const Article: FC<ArticleProps> = (props) => {
           >
             <FormItem
               name="content"
-              label={<Avatar src={currentUser.avatar}/>}
+              label={<Avatar src={currentUser.avatar} icon={<UserOutlined/>}/>}
               style={{
                 width: '90%',
                 marginRight: 0,
@@ -134,7 +135,7 @@ const Article: FC<ArticleProps> = (props) => {
                 }
                 <Row gutter={16}>
                   <Col>
-                    <Avatar src={item.avatar} />
+                    <Avatar src={item.avatar} icon={<UserOutlined/>} />
                   </Col>
                   <Col>
                     <Space>
