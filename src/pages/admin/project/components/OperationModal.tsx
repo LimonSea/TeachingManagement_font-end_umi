@@ -32,8 +32,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
     if (form && visible && current) {
       form.setFieldsValue({
         ...current,
-        users: current.users?.map(item => item.id) || [],
-        createdAt: current.createdAt ? moment(current.createdAt) : null,
+        users: current.users?.map(item => {return item.id || item}) || [],
       });
     }
   }, [props.visible]);
@@ -89,18 +88,6 @@ const OperationModal: FC<OperationModalProps> = (props) => {
               })
             }
           </Radio.Group>
-        </Form.Item>
-        <Form.Item
-          name="createdAt"
-          label="开始时间"
-          rules={[{ required: true, message: '请选择开始时间' }]}
-        >
-          <DatePicker
-            showTime
-            placeholder="请选择"
-            format="YYYY-MM-DD HH:mm:ss"
-            style={{ width: '100%' }}
-          />
         </Form.Item>
         <Form.Item
           name="users"

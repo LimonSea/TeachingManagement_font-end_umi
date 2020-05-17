@@ -4,7 +4,6 @@ import { queryCurrent, queryArticleList, queryProjectList } from './service';
 
 export interface ModalState {
   currentUser: Partial<CurrentUser>;
-  pageCurrentUser: Partial<CurrentUser>;
   isMe: boolean,
   list: ListItemDataType[];
   projectList: ProjectListItemDataType[];
@@ -45,8 +44,8 @@ const Model: ModelType = {
         type: 'saveCurrentUser',
         payload: response,
       });
-      // 请求项目组数据
-      const responseProject = yield call(queryProjectList, {groupId: response.groupId});
+      // 请求项目组数据(当前用户的项目，传groupid是为了，同工作室的人可以查看)
+      const responseProject = yield call(queryProjectList, {userId: response.id, groupId: response.groupId});
       if (responseProject.status === 'ok') {
         yield put({
           type: 'saveProjectList',

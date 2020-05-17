@@ -1,14 +1,20 @@
 import React from 'react';
-import styles from './index.less';
 import moment from 'moment';
+import styles from './index.less';
 
 export interface ApplicationsProps {
   data: {
     desc?: string;
     updatedAt?: any;
-    avatar?: string;
-    owner?: string;
     authorId?: number;
+    user: {
+      avatar?: string;
+      name?: string;
+      groupId?: number;
+      group?: {
+        name?: string;
+      }
+    }
   };
 }
 const ArticleListContent: React.FC<ApplicationsProps> = ({

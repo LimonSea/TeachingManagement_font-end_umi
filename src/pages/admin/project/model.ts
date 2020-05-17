@@ -14,17 +14,16 @@ export interface ModelType {
   state: StateType;
   effects: {
     fetchList: Effect;
-    appendFetch: Effect;
     fetchMember: Effect;
     submitAndUpdate: Effect;
     delete: Effect;
   };
   reducers: {
     queryList: Reducer<StateType>;
-    appendList: Reducer<StateType>;
     queryMember: Reducer<StateType>;
     addToList: Reducer<StateType>;
     updateList: Reducer<StateType>;
+    deleteItem: Reducer<StateType>;
   };
 }
 
@@ -45,15 +44,8 @@ const Model: ModelType = {
         payload: response,
       });
     },
-    *appendFetch({ payload }, { call, put }) { // TODO:还没做
-      const response = yield call(queryList, payload);
-      yield put({
-        type: 'appendList',
-        payload: response,
-      });
-    },
-    *fetchMember({ payload }, { call, put }) {
-      const response = yield call(queryMember, payload);
+    *fetchMember(_, { call, put }) {
+      const response = yield call(queryMember);
       if (response.status === 'ok') {
         yield put({
           type: 'queryMember',
@@ -88,8 +80,8 @@ const Model: ModelType = {
       const response = yield call(deleteProject, payload);
       if (response.status === 'ok') {
         yield put({
-          type: 'queryMember',
-          payload: response,
+          type: 'deleteItem',
+          payload,
         });
       }
     },
@@ -103,12 +95,6 @@ const Model: ModelType = {
         totalCount: action.payload.totalCount,
       };
     },
-    appendList(state, action) {
-      return {
-        ...(state as StateType),
-        list: (state as StateType).list.concat(action.payload.data),
-      };
-    },
     queryMember(state, action) {
       return {
         ...(state as StateType),
@@ -118,7 +104,7 @@ const Model: ModelType = {
     addToList(state, action) {
       return {
         ...(state as StateType),
-        list: [ ...action.payload, ...(state as StateType).list],
+        list: [ action.payload, ...(state as StateType).list],
       };
     },
     updateList(state, action) {
@@ -129,8 +115,19 @@ const Model: ModelType = {
       return {
         ...(state as StateType),
         list: newList,
+        totalCount: (state as StateType).totalCount + 1,
       };
     },
+    deleteItem(state, action) {
+      const newList = (state as StateType).list;
+      const index = newList.findIndex(item => item.id === action.payload.id);
+      newList.splice(index, 1);
+      return {
+        ...(state as StateType),
+        list: newList,
+        totalCount: (state as StateType).totalCount - 1,
+      };
+    }
   },
 };
 

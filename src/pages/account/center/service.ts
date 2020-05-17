@@ -8,6 +8,6 @@ export async function queryArticleList(params: { count: number, authorId: number
   return request('/server/writing/searchArticle', { params });
 }
 
-export async function queryProjectList(params: { groupId: number }) {
-  return request('/server/project/search', { params });
+export async function queryProjectList(params: { userId: number, groupId: number }) {
+  return request('/server/user/getProjectList', { params });
 }

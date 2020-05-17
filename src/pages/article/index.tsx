@@ -1,27 +1,27 @@
-import { Button, Card, Form, Avatar, Space, Divider, Row, Col, message } from 'antd';
+import { Button, Card, Form, Avatar, Space, Divider, Row, Col } from 'antd';
 import { connect, Dispatch, Link } from 'umi';
 import BraftEditor from 'braft-editor';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
+import _ from 'lodash';
 import 'braft-editor/dist/index.css';
-import styles from './style.less';
-import { ModalState } from './model';
+import { UserOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
-import _ from 'lodash';
-import { UserOutlined } from '@ant-design/icons';
+import styles from './style.less';
+import { ModalState } from './model';
 
 const FormItem = Form.Item;
 interface ArticleProps {
   submitting: boolean;
   dispatch: Dispatch<any>;
-  articleDetail: ModalState;
+  article: any;
   match: any;
   currentUser?: CurrentUser;
 }
 
 const Article: FC<ArticleProps> = (props) => {
-  const { submitting, dispatch, match, articleDetail: { article }, currentUser } = props;
+  const { submitting, dispatch, match, article, currentUser } = props;
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -61,9 +61,9 @@ const Article: FC<ArticleProps> = (props) => {
         bodyStyle={{fontSize: 16, marginBottom: 24}}
       >
         <Space style={{display: 'flex', marginBottom: 24}}>
-          <Avatar src={article.avatar} icon={<UserOutlined/>}/>
-          <Link to={`/account/center/${article.authorId}`}>{article.owner}</Link>发布于
-          <Link to={`/group/center/${article.groupId}`}>{article.groupName}</Link>
+          <Avatar src={article.user?.avatar}>{article.user?.name}</Avatar>
+          <Link to={`/account/center/${article.authorId}`}>{article.user?.name}</Link>发布于
+          <Link to={`/group/center/${article.groupId}`}>{article.user?.group?.name}</Link>
           {moment(article.updatedAt).format('YYYY-MM-DD HH:mm')}
         </Space>
         <Divider style={{marginBottom: 24}}/>
@@ -135,7 +135,7 @@ const Article: FC<ArticleProps> = (props) => {
                 }
                 <Row gutter={16}>
                   <Col>
-                    <Avatar src={item.avatar} icon={<UserOutlined/>} />
+                    <Avatar src={item.avatar}>{item.owner}</Avatar>
                   </Col>
                   <Col>
                     <Space>
@@ -164,7 +164,7 @@ export default connect(
     articleDetail: ModalState,
     loading: { effects: { [key: string]: boolean } }
   }) => ({
-    articleDetail,
+    article: articleDetail.article,
     submitting: loading.effects['articleDetail/submitComment'],
     currentUser: user.currentUser,
 }))(Article);

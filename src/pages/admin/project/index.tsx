@@ -40,7 +40,7 @@ const ListContent = ({
       <a href={github} target="_blank">{github}</a>
     </div>
     <div className={styles.listContentItem}>
-      <span>开始时间</span>
+      <span>创建时间</span>
       <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
     </div>
     <div className={styles.listContentItem}>
@@ -67,16 +67,12 @@ export const Project: FC<ProjectProps> = (props) => {
     dispatch({
       type: 'adminAndproject/fetchList',
       payload: {
-        groupId: currentUser.groupId,
         count: 5,
         currentPage: 1,
       },
     });
     dispatch({
       type: 'adminAndproject/fetchMember',
-      payload: {
-        groupId: currentUser.groupId,
-      },
     })
   }, [currentUser.groupId]);
 
@@ -84,6 +80,15 @@ export const Project: FC<ProjectProps> = (props) => {
     showQuickJumper: true,
     pageSize: 5,
     total: totalCount,
+    onChange: (page: number) => {
+      dispatch({
+        type: 'adminAndproject/fetchList',
+        payload: {
+          count: 5,
+          currentPage: page,
+        },
+      });
+    }
   };
 
   const showModal = () => {
@@ -103,10 +108,10 @@ export const Project: FC<ProjectProps> = (props) => {
     });
   };
 
-  const editAndDelete = (currentItem: BasicListItemDataType) => {
+  const handleDelete = (currentItem: BasicListItemDataType) => {
     Modal.confirm({
-      title: '删除任务',
-      content: '确定删除该任务吗？',
+      title: '删除项目',
+      content: '确定删除该项目吗？',
       okText: '确认',
       cancelText: '取消',
       onOk: () => deleteItem(currentItem.id),
@@ -130,10 +135,8 @@ export const Project: FC<ProjectProps> = (props) => {
 
   const handleSubmit = (values: BasicListItemDataType) => {
     // const id = current ? current.id : '';
-    // 有current 表示已有项目，是更新，没有，表示是新添加的
-    const payload = current ?
-      { ...values, groupId: currentUser.groupId, id: current.id } :
-      {...values,  groupId: currentUser.groupId};
+    // 有current 表示更新已有项目，没有则表示新添加项目
+    const payload = current ? { ...values, id: current.id } : values;
     setDone(true);
     dispatch({
       type: 'adminAndproject/submitAndUpdate',
@@ -183,7 +186,7 @@ export const Project: FC<ProjectProps> = (props) => {
                     </a>,
                     <a
                       key="delete"
-                      onClick={() => editAndDelete(item)}
+                      onClick={() => handleDelete(item)}
                     >
                       删除
                     </a>
