@@ -68,12 +68,41 @@ export default defineConfig({
           authority: ['admin', 'user'],
           routes: [
             {
+              path: '/',
+              name: '首页',
+              icon: 'home',
+              component: './article/search',
+            },
+            {
+              path: '/resource',
+              name: '资源',
+              icon: 'gold',
+              component: './resource',
+            },
+            {
               path: '/writing',
+              name: '创作中心',
+              icon: 'edit',
               routes: [
                 {
                   name: '写文章',
+                  icon: 'edit',
                   path: '/writing/article',
                   component: './writing/article',
+                },
+              ],
+            },
+            {
+              path: '/admin',
+              name: '管理中心',
+              icon: 'dashboard',
+              authority: ['admin'],
+              routes: [
+                {
+                  name: '项目管理',
+                  icon: 'flag',
+                  path: '/admin/project',
+                  component: './admin/project',
                 },
               ],
             },
@@ -88,16 +117,20 @@ export default defineConfig({
               ],
             },
             {
-              path: '/admin',
-              name: '管理中心',
-              icon: 'dashboard',
-              authority: ['admin'],
+              path: '/account',
+              name: '个人中心',
+              icon: 'user',
+              hideInMenu: true,
               routes: [
                 {
-                  name: '项目管理',
-                  icon: 'smile',
-                  path: '/admin/project',
-                  component: './admin/project',
+                  name: '个人中心',
+                  path: '/account/center/:id',
+                  component: './account/center',
+                },
+                {
+                  name: '个人设置',
+                  path: '/account/settings',
+                  component: './account/settings',
                 },
               ],
             },
@@ -265,25 +298,6 @@ export default defineConfig({
                   icon: 'smile',
                   path: '/exception/500',
                   component: './exception/500',
-                },
-              ],
-            },
-            {
-              name: '个人页',
-              icon: 'user',
-              path: '/account',
-              routes: [
-                {
-                  name: '个人中心',
-                  icon: 'smile',
-                  path: '/account/center/:id',
-                  component: './account/center',
-                },
-                {
-                  name: '个人设置',
-                  icon: 'smile',
-                  path: '/account/settings',
-                  component: './account/settings',
                 },
               ],
             },

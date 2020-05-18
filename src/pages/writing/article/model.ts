@@ -1,4 +1,4 @@
-import { Effect } from 'umi';
+import { Effect, history } from 'umi';
 import { message } from 'antd';
 import { SubmitForm } from './service';
 
@@ -17,7 +17,10 @@ const Model: ModelType = {
   effects: {
     *submitForm({ payload }, { call }) {
       const response = yield call(SubmitForm, payload);
-      if (response.status === 'ok') message.success('发布成功');
+      if (response.status === 'ok') {
+        history.push(`/article/${response.id}`);
+        message.success('发布成功');
+      }
       else message.error('发布失败');
     },
   },

@@ -135,11 +135,11 @@ const Article: FC<ArticleProps> = (props) => {
                 }
                 <Row gutter={16}>
                   <Col>
-                    <Avatar src={item.avatar}>{item.owner}</Avatar>
+                    <Avatar src={item.user?.avatar}>{item.user?.name}</Avatar>
                   </Col>
                   <Col>
                     <Space>
-                      <Link to={`/account/center/${item.authorId}`}>{item.owner}</Link>
+                      <Link to={`/account/center/${item.authorId}`}>{item.user?.name}</Link>
                       {moment(item.updatedAt).format('YYYY-MM-DD HH:mm')}
                     </Space>
                     <div dangerouslySetInnerHTML={{__html: item.content}} />
@@ -150,7 +150,7 @@ const Article: FC<ArticleProps> = (props) => {
           })
         }
       </Card>
-      </>
+    </>
   );
 };
 
