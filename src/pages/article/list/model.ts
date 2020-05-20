@@ -20,7 +20,7 @@ export interface ModelType {
 }
 
 const Model: ModelType = {
-  namespace: 'articleAndsearch',
+  namespace: 'adminAndlist',
 
   state: {
     list: [],

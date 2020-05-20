@@ -8,11 +8,9 @@ export interface BasicListItemDataType {
   id: number;
   groupId: number;
   title: string;
-  cover: string;
-  desc: string;
-  github: string;
-  status: string;
-  updatedAt: number;
-  createdAt: number;
+  content: string;
+  deadline: string;
+  updatedAt: string;
+  createdAt: string;
   users?: Member[];
 }

@@ -57,11 +57,15 @@ const Model: LoginModelType = {
         history.replace(redirect || '/');
       }
     },
-
-    logout() {
+    *logout(_, { call, put }) {
       const { redirect } = getPageQuery();
       // 删除token
       localStorage.removeItem('token');
+      // 权限清除
+      yield put({
+        type: 'changeLoginStatus',
+        payload: { currentAuthority: 'guest' },
+      });
       // 跳转链接
       if (window.location.pathname !== '/user/login' && !redirect) {
         history.replace({

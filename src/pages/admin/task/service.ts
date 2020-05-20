@@ -1,20 +1,19 @@
 import request from '@/utils/request';
-import { BasicListItemDataType } from './data.d';
+import { BasicListItemDataType, Member } from './data.d';
 
 interface ParamsType extends Partial<BasicListItemDataType> {
-  id?: number;
+  id: number;
   groupId: number;
   title: string;
-  cover: string;
-  desc: string;
-  github: string;
-  status: string;
-  createdAt: number;
-  users?: [];
+  content: string;
+  deadline: string;
+  updatedAt: string;
+  createdAt: string;
+  users?: Member[];
 }
 
-export async function queryList(params: { groupId: number, count: number, currentPage: number }) {
-  return request('/server/project/search', { params });
+export async function queryList(params: { count: number, currentPage: number }) {
+  return request('/server/task/search', { params });
 }
 
 // 查询工作室所有成员
@@ -24,7 +23,7 @@ export async function queryMember(params: { groupId: Number }) {
 
 // 新建项目
 export async function submit(params: ParamsType) {
-  return request('/server/project/create', {
+  return request('/server/task/create', {
     method: 'POST',
     data: params,
   });
@@ -32,15 +31,15 @@ export async function submit(params: ParamsType) {
 
 // 更新项目
 export async function update(params: ParamsType) {
-  return request('/server/project/update', {
+  return request('/server/task/update', {
     method: 'POST',
     data: params,
   });
 }
 
 // 删除项目
-export async function deleteProject(params: { id: number }) {
-  return request('/server/project/delete', {
+export async function deleteTask(params: { id: number }) {
+  return request('/server/task/delete', {
     method: 'POST',
     data: params,
   });

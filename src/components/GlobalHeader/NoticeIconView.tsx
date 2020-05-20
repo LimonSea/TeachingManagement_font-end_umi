@@ -133,7 +133,7 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
         onViewMore={() => message.info('Click on view more')}
         clearClose
       >
-        <NoticeIcon.Tab
+        {/* <NoticeIcon.Tab
           tabKey="notification"
           count={unreadMsg.notification}
           list={noticeData.notification}
@@ -148,7 +148,7 @@ class GlobalHeaderRight extends Component<GlobalHeaderRightProps> {
           title="消息"
           emptyText="您已读完所有消息"
           showViewMore
-        />
+        /> */}
         <NoticeIcon.Tab
           tabKey="event"
           title="待办"

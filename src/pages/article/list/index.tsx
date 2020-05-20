@@ -16,15 +16,15 @@ const pageSize = 10;
 
 interface ArticlesProps {
   dispatch: Dispatch<any>;
-  articleAndsearch: StateType;
+  adminAndlist: StateType;
   loading: boolean;
 }
-const Articles: FC<ArticlesProps> = ({ dispatch, articleAndsearch: { list }, loading }) => {
+const Articles: FC<ArticlesProps> = ({ dispatch, adminAndlist: { list }, loading }) => {
   const [form] = Form.useForm();
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     dispatch({
-      type: 'articleAndsearch/fetch',
+      type: 'adminAndlist/fetch',
       payload: {
         count: pageSize,
         currentPage,
@@ -39,7 +39,7 @@ const Articles: FC<ArticlesProps> = ({ dispatch, articleAndsearch: { list }, loa
 
   const fetchMore = () => {
     dispatch({
-      type: 'articleAndsearch/appendFetch',
+      type: 'adminAndlist/appendFetch',
       payload: {
         count: pageSize,
         currentPage: currentPage + 1,
@@ -135,7 +135,7 @@ const Articles: FC<ArticlesProps> = ({ dispatch, articleAndsearch: { list }, loa
           }}
           onValuesChange={() => {
             dispatch({
-              type: 'articleAndsearch/fetch',
+              type: 'adminAndlist/fetch',
               payload: {
                 count: 8,
               },
@@ -237,13 +237,13 @@ const Articles: FC<ArticlesProps> = ({ dispatch, articleAndsearch: { list }, loa
 
 export default connect(
   ({
-    articleAndsearch,
+    adminAndlist,
     loading,
   }: {
-    articleAndsearch: StateType;
+    adminAndlist: StateType;
     loading: { models: { [key: string]: boolean } };
   }) => ({
-    articleAndsearch,
-    loading: loading.models.articleAndsearch,
+    adminAndlist,
+    loading: loading.models.adminAndlist,
   }),
 )(Articles);
