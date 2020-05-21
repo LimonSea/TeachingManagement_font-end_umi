@@ -4,7 +4,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, Dispatch, Link } from 'umi';
 import moment from 'moment';
 import { StateType } from './model';
-import { BasicListItemDataType } from './data.d';
+import { TaskDetailDataType } from './data.d';
 import styles from './style.less';
 
 const RadioButton = Radio.Button;
@@ -21,7 +21,7 @@ interface BasicListProps {
 const ListContent = ({
   data: { deadline, usertask },
 }: {
-  data: BasicListItemDataType;
+  data: TaskDetailDataType;
 }) => (
   <div className={styles.listContent}>
     <div className={styles.listContentItem}>

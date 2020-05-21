@@ -1,10 +1,10 @@
 import { Effect, Reducer } from 'umi';
 import { queryList } from './service';
 
-import { BasicListItemDataType } from './data.d';
+import { TaskDetailDataType } from './data.d';
 
 export interface StateType {
-  list: BasicListItemDataType[];
+  list: TaskDetailDataType[];
   totalCount: number;
 }
 

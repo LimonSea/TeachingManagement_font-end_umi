@@ -6,6 +6,12 @@ export interface TaskDetailDataType {
   deadline?: string;
   updatedAt?: string;
   createdAt?: string;
+}
+
+export interface UserDataType {
+  id?: number;
+  name?: string;
+  avatar?: string;
   usertask?: UserTaskDataType;
 }
 
@@ -15,10 +21,4 @@ export interface UserTaskDataType {
   studentContent: string;
   teacherContent: string;
   updateAt: string;
-}
-
-export interface UserDataType {
-  id?: number;
-  name?: string;
-  avatar?: string;
 }

@@ -2,7 +2,7 @@ import React, { FC, useRef, useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Card, Col, Input, List, Modal, Progress, Radio, Row, message } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { connect, Dispatch } from 'umi';
+import { connect, Dispatch, Link } from 'umi';
 import moment from 'moment';
 import OperationModal from './components/OperationModal';
 import { StateType } from './model';
@@ -199,7 +199,7 @@ export const BasicList: FC<BasicListProps> = (props) => {
                   ]}
                 >
                   <List.Item.Meta
-                    title={<a href={item.href}>{item.title}</a>}
+                    title={<Link to={`/task/detail/${item.id}`}>{item.title}</Link>}
                   />
                   <ListContent data={item} />
                 </List.Item>

@@ -88,6 +88,12 @@ export default defineConfig({
             {
               name: '作业详情',
               hideInMenu: true,
+              path: '/task/detail/:id',
+              component: './admin/task/overview',
+            },
+            {
+              name: '作业详情',
+              hideInMenu: true,
               path: '/task/detail/:id/:userId',
               component: './task/detail',
             },

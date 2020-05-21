@@ -1,4 +1,4 @@
-export interface BasicListItemDataType {
+export interface TaskDetailDataType {
   id: number;
   groupId: number;
   title: string;
