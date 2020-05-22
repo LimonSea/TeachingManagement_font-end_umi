@@ -1,14 +1,12 @@
 import React, { FC, useEffect } from 'react';
-import { Modal, Result, Button, Form, Input, Select, Radio } from 'antd';
+import { Modal, Form, Input, Select, Radio } from 'antd';
 import { BasicListItemDataType, Member } from '../data.d';
 import styles from '../style.less';
 
 interface OperationModalProps {
-  done: boolean;
   visible: boolean;
   current: Partial<BasicListItemDataType> | undefined;
   users: Member[];
-  onDone: () => void;
   onSubmit: (values: BasicListItemDataType) => void;
   onCancel: () => void;
 }
@@ -22,7 +20,7 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, visible, current, users, onDone, onCancel, onSubmit } = props;
+  const { visible, current, users, onCancel, onSubmit } = props;
 
   useEffect(() => {
     if (form && !visible) {
@@ -43,25 +41,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
     }
   };
 
-  const modalFooter = done
-    ? { footer: null, onCancel: onDone }
-    : { okText: '保存', cancelText: '取消', onOk: () => form.submit(), onCancel };
-
   const getModalContent = () => {
-    if (done) {
-      return (
-        <Result
-          status="success"
-          title="操作成功"
-          extra={
-            <Button type="primary" onClick={onDone}>
-              知道了
-            </Button>
-          }
-          className={styles.formResult}
-        />
-      );
-    }
     return (
       <Form {...formLayout} form={form} onFinish={handleFinish}>
         <Form.Item
@@ -134,13 +114,16 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   return (
     <Modal
-      title={done ? null : `项目${current ? '编辑' : '添加'}`}
+      title={`项目${current ? '编辑' : '添加'}`}
       className={styles.standardListForm}
       width={640}
-      bodyStyle={done ? { padding: '72px 0' } : { padding: '28px 0 0' }}
+      bodyStyle={{ padding: '28px 0 0' }}
       destroyOnClose
       visible={visible}
-      {...modalFooter}
+      okText='保存'
+      cancelText='取消'
+      onOk={() => form.submit()}
+      onCancel={onCancel}
     >
       {getModalContent()}
     </Modal>

@@ -9,6 +9,7 @@ export interface ModalState {
   projectList: ProjectListItemDataType[];
   articleCount: number,
   projectCount: number,
+  loading?: boolean,
 }
 
 export interface ModelType {
@@ -17,10 +18,12 @@ export interface ModelType {
   effects: {
     fetchCurrent: Effect;
     fetchArticle: Effect;
+    appendFetch: Effect;
   };
   reducers: {
     saveCurrentUser: Reducer<ModalState>;
     saveArticleList: Reducer<ModalState>;
+    appendArticleList: Reducer<ModalState>;
     saveProjectList: Reducer<ModalState>;
   };
 }
@@ -60,6 +63,13 @@ const Model: ModelType = {
         payload: response,
       });
     },
+    *appendFetch({ payload }, { call, put }) {
+      const response = yield call(queryArticleList, payload);
+      yield put({
+        type: 'appendArticleList',
+        payload: response,
+      });
+    },
   },
 
   reducers: {
@@ -74,6 +84,12 @@ const Model: ModelType = {
         ...(state as ModalState),
         list: action.payload.data,
         articleCount: action.payload.totalCount,
+      };
+    },
+    appendArticleList(state, action) {
+      return {
+        ...(state as ModalState),
+        list: (state as ModalState).list.concat(action.payload.data),
       };
     },
     saveProjectList(state, action) {

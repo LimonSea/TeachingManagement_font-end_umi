@@ -23,7 +23,7 @@ const Authorized: React.FunctionComponent<AuthorizedProps> = ({
     <Result
       status="403"
       title="403"
-      subTitle="Sorry, you are not authorized to access this page."
+      subTitle="暂无权限，请联系管理员。"
     />
   ),
 }) => {

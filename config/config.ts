@@ -90,13 +90,6 @@ export default defineConfig({
             {
               name: '作业详情',
               hideInMenu: true,
-              path: '/task/detail/:id',
-              component: './admin/task/overview',
-              authority: ['admin', 'user'],
-            },
-            {
-              name: '作业详情',
-              hideInMenu: true,
               path: '/task/detail/:id/:userId',
               component: './task/detail',
               authority: ['admin', 'user'],
@@ -132,6 +125,12 @@ export default defineConfig({
                   icon: 'snippets',
                   path: '/admin/task',
                   component: './admin/task',
+                },
+                {
+                  name: '作业概览',
+                  hideInMenu: true,
+                  path: '/admin/taskoverview/:id',
+                  component: './admin/task/overview',
                 },
               ],
             },

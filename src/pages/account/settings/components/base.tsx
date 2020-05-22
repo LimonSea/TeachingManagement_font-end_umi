@@ -1,5 +1,5 @@
-import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Input, Upload, Form, Avatar } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Input, Upload, Form, Radio, InputNumber } from 'antd';
 import { connect } from 'umi';
 import React, { Component } from 'react';
 import { CurrentUser } from '../data.d';
@@ -17,6 +17,8 @@ interface BaseViewProps {
 }
 
 interface updateBaseInfoValues {
+  sex: number;
+  age: number;
   mail: string;
   mobile: string;
   name: string;
@@ -63,6 +65,12 @@ class BaseView extends Component<BaseViewProps> {
             hideRequiredMark
           >
             <Form.Item
+              name="id"
+              label="ID"
+            >
+              <Input disabled/>
+            </Form.Item>
+            <Form.Item
               name="mail"
               label="邮箱"
               rules={[
@@ -85,6 +93,32 @@ class BaseView extends Component<BaseViewProps> {
               ]}
             >
               <Input />
+            </Form.Item><Form.Item
+              name="sex"
+              label="性别"
+              rules={[
+                {
+                  required: true,
+                  message: '请选择性别!',
+                },
+              ]}
+            >
+              <Radio.Group>
+                <Radio value={1}>男</Radio>
+                <Radio value={0}>女</Radio>
+              </Radio.Group>
+            </Form.Item>
+            <Form.Item
+              name="age"
+              label="年龄"
+              rules={[
+                {
+                  required: true,
+                  message: '请输入您的年龄!',
+                },
+              ]}
+            >
+              <InputNumber />
             </Form.Item>
             <Form.Item
               name="signature"

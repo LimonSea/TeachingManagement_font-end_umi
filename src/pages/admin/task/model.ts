@@ -40,9 +40,24 @@ const Model: ModelType = {
   effects: {
     *fetchList({ payload }, { call, put }) {
       const response = yield call(queryList, payload);
+      // 计算百分比
+      const data = response.data.map((item: { users: { usertask: { status: string; }; }[]; }) => {
+        let submitted = 0;
+        const total = item.users.length;
+        item.users.forEach((user: { usertask: { status: string; }; }) => {
+          if (user.usertask.status !== 'published') submitted += 1;
+        });
+        return {
+          ...item,
+          percent: submitted / total * 100,
+        };
+      });
       yield put({
         type: 'queryList',
-        payload: response,
+        payload: {
+          data,
+          totalCount: response.totalCount
+        },
       });
     },
     *fetchMember(_, { call, put }) {
@@ -72,7 +87,10 @@ const Model: ModelType = {
           // 假写
           yield put({
             type: 'addToList',
-            payload,
+            payload: {
+              ...payload,
+              id: response.result.id
+            },
           });
           message.success('发布成功');
         }

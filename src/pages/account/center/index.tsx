@@ -1,4 +1,4 @@
-import { PlusOutlined, ContactsOutlined, ClusterOutlined, TeamOutlined } from '@ant-design/icons';
+import { PlusOutlined, ContactsOutlined, ClusterOutlined, TeamOutlined, WomanOutlined, ManOutlined } from '@ant-design/icons';
 import { Avatar, Card, Col, Divider, Input, Row, Tag } from 'antd';
 import React, { Component, useState, useRef } from 'react';
 import { GridContent } from '@ant-design/pro-layout';
@@ -159,12 +159,8 @@ class Center extends Component<CenterProps, CenterState> {
   renderUserInfo = (currentUser: Partial<CurrentUser>) => (
     <div className={styles.detail}>
       <p>
-        <ContactsOutlined
-          style={{
-            marginRight: 8,
-          }}
-        />
-        {currentUser.title}
+        {currentUser.sex ? <ManOutlined style={{ marginRight: 8 }}/> : <WomanOutlined style={{ marginRight: 8 }}/>}
+        {currentUser.age} 岁
       </p>
       <p>
         <ClusterOutlined

@@ -11,6 +11,12 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const { Search } = Input;
 const PageSize = 10;
+const statusNames = {
+  'published': { color: 'volcano', name: '已发布' },
+  'submitted': { color: 'green', name: '已提交' },
+  'returned': { color: 'red', name: '需修正' },
+  'revised': { color: 'blue', name: '已批改' },
+}
 
 interface BasicListProps {
   taskAndList: StateType;
@@ -29,7 +35,7 @@ const ListContent = ({
       <span>{moment(deadline).format('YYYY-MM-DD HH:mm')}</span>
     </div>
     <div className={styles.listContentItem}>
-      <Tag>{usertask.status}</Tag>
+      <Tag color={statusNames[usertask.status].color}>{statusNames[usertask.status].name}</Tag>
     </div>
   </div>
 );

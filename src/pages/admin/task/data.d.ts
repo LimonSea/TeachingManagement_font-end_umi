@@ -13,4 +13,5 @@ export interface BasicListItemDataType {
   updatedAt: string;
   createdAt: string;
   users?: Member[];
+  percent?: number;
 }

@@ -20,20 +20,8 @@ interface BasicListProps {
   loading: boolean;
 }
 
-const Info: FC<{
-  title: React.ReactNode;
-  value: React.ReactNode;
-  bordered?: boolean;
-}> = ({ title, value, bordered }) => (
-  <div className={styles.headerInfo}>
-    <span>{title}</span>
-    <p>{value}</p>
-    {bordered && <em />}
-  </div>
-);
-
 const ListContent = ({
-  data: { deadline, percent, status },
+  data: { deadline, percent },
 }: {
   data: BasicListItemDataType;
 }) => (
@@ -43,7 +31,7 @@ const ListContent = ({
       <span>{moment(deadline).format('YYYY-MM-DD HH:mm')}</span>
     </div>
     <div className={styles.listContentItem}>
-      <Progress percent={percent} status={status} strokeWidth={6} style={{ width: 180 }} />
+      <Progress percent={percent} strokeWidth={6} style={{ width: 180 }} />
     </div>
   </div>
 );
@@ -140,19 +128,19 @@ export const BasicList: FC<BasicListProps> = (props) => {
     <div>
       <PageHeaderWrapper>
         <div className={styles.standardList}>
-          <Card bordered={false}>
+          {/* <Card bordered={false}>
             <Row>
               <Col sm={8} xs={24}>
                 <Info title="待批改" value="8个作业" bordered />
               </Col>
-              {/* <Col sm={8} xs={24}>
+              <Col sm={8} xs={24}>
                 <Info title="本周任务平均处理时间" value="32分钟" bordered />
               </Col>
               <Col sm={8} xs={24}>
                 <Info title="本周完成任务数" value="24个任务" />
-              </Col> */}
+              </Col>
             </Row>
-          </Card>
+          </Card> */}
 
           <Card
             className={styles.listCard}
@@ -199,7 +187,7 @@ export const BasicList: FC<BasicListProps> = (props) => {
                   ]}
                 >
                   <List.Item.Meta
-                    title={<Link to={`/task/detail/${item.id}`}>{item.title}</Link>}
+                    title={<Link to={`/admin/taskoverview/${item.id}`}>{item.title}</Link>}
                   />
                   <ListContent data={item} />
                 </List.Item>

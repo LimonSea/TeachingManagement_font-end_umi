@@ -29,6 +29,8 @@ export interface CurrentUser {
   id: number;
   name: string;
   avatar: string;
+  sex: number;
+  age: number;
   email: string;
   signature: string;
   mobile: string;

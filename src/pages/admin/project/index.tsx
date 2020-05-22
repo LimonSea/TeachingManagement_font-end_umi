@@ -2,17 +2,9 @@ import React, { FC, useRef, useState, useEffect } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
-import {
-  Avatar,
-  Button,
-  Card,
-  Input,
-  List,
-  Modal,
-} from 'antd';
-
+import { Avatar, Button, Card, Input, List, Modal, Tag } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { connect, Dispatch } from 'umi';
+import { connect, Dispatch, Link } from 'umi';
 import moment from 'moment';
 import OperationModal from './components/OperationModal';
 import { StateType } from './model';
@@ -20,6 +12,11 @@ import { BasicListItemDataType, Member } from './data.d';
 import styles from './style.less';
 
 const { Search } = Input;
+const statusNames = {
+  'normal': { color: 'volcano', name: '待启动' },
+  'started': { color: 'green', name: '已启动' },
+  'finished': { color: 'blue', name: '已结束' },
+}
 
 interface ProjectProps {
   adminAndproject: StateType;
@@ -44,8 +41,7 @@ const ListContent = ({
       <p>{moment(createdAt).format('YYYY-MM-DD HH:mm')}</p>
     </div>
     <div className={styles.listContentItem}>
-      <span>状态</span>
-      <p>{status}</p>
+      <Tag color={statusNames[status].color}>{statusNames[status].name}</Tag>
     </div>
   </div>
 );
@@ -58,7 +54,6 @@ export const Project: FC<ProjectProps> = (props) => {
     adminAndproject: { list, totalCount, users },
     currentUser,
   } = props;
-  const [done, setDone] = useState<boolean>(false); // true: 显示操作成功界面
   const [visible, setVisible] = useState<boolean>(false); // true: 显示modal
   const [current, setCurrent] = useState<Partial<BasicListItemDataType> | undefined>(undefined); // 编辑初始值
 
@@ -124,24 +119,18 @@ export const Project: FC<ProjectProps> = (props) => {
     </div>
   );
 
-  const handleDone = () => {
-    setDone(false);
-    setVisible(false);
-  };
-
   const handleCancel = () => {
     setVisible(false);
   };
 
   const handleSubmit = (values: BasicListItemDataType) => {
-    // const id = current ? current.id : '';
     // 有current 表示更新已有项目，没有则表示新添加项目
     const payload = current ? { ...values, id: current.id } : values;
-    setDone(true);
     dispatch({
       type: 'adminAndproject/submitAndUpdate',
       payload,
     });
+    setVisible(false);
   };
 
   return (
@@ -194,7 +183,7 @@ export const Project: FC<ProjectProps> = (props) => {
                 >
                   <List.Item.Meta
                     avatar={<Avatar src={item.cover} shape="square" size="large" style={{backgroundColor: item.cover}}>{item.title}</Avatar>}
-                    title={<a href={item.href}>{item.title}</a>}
+                    title={<Link to={`project/detail/${item.id}`}>{item.title}</Link>}
                     description={item.desc}
                   />
                   <ListContent data={item} />
@@ -206,11 +195,9 @@ export const Project: FC<ProjectProps> = (props) => {
       </PageHeaderWrapper>
 
       <OperationModal
-        done={done}
         users={users}
         current={current}
         visible={visible}
-        onDone={handleDone}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
       />

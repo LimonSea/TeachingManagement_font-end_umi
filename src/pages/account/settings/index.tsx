@@ -23,6 +23,8 @@ interface SettingsState {
   selectKey: SettingsStateKeys;
 }
 interface updateBaseInfoValues {
+  sex: number;
+  age: number;
   avatar: string;
   mail: string;
   mobile: string;
@@ -103,7 +105,6 @@ class Settings extends Component<SettingsProps, SettingsState> {
 
   updateBaseInfo = (values: updateBaseInfoValues) => {
     const { dispatch, currentUser } = this.props;
-    console.log('updateBaseInfo', values)
     dispatch({
       type: 'accountAndsettings/updateBaseInfo',
       payload: {

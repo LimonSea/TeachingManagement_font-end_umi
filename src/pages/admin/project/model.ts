@@ -2,6 +2,7 @@ import { Effect, Reducer } from 'umi';
 import { submit, update, queryList, deleteProject, queryMember } from './service';
 
 import { BasicListItemDataType, Member } from './data.d';
+import { message } from 'antd';
 
 export interface StateType {
   list: BasicListItemDataType[];
@@ -63,6 +64,7 @@ const Model: ModelType = {
             type: 'updateList',
             payload,
           });
+          message.success('修改成功');
         }
       } else {
         const response = yield call(submit, payload);
@@ -70,8 +72,12 @@ const Model: ModelType = {
           // 假写
           yield put({
             type: 'addToList',
-            payload,
+            payload: {
+              ...payload,
+              id: response.result.id
+            },
           });
+          message.success('创建成功');
         }
 
       }
