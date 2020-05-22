@@ -115,12 +115,6 @@ export default defineConfig({
               authority: ['admin'],
               routes: [
                 {
-                  name: '项目管理',
-                  icon: 'flag',
-                  path: '/admin/project',
-                  component: './admin/project',
-                },
-                {
                   name: '作业管理',
                   icon: 'snippets',
                   path: '/admin/task',
@@ -131,6 +125,18 @@ export default defineConfig({
                   hideInMenu: true,
                   path: '/admin/taskoverview/:id',
                   component: './admin/task/overview',
+                },
+                {
+                  name: '项目管理',
+                  icon: 'flag',
+                  path: '/admin/project',
+                  component: './admin/project',
+                },
+                {
+                  name: '工作室管理',
+                  icon: 'cluster',
+                  path: '/admin/group',
+                  component: './admin/group',
                 },
               ],
             },
