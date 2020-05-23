@@ -62,6 +62,12 @@ const UserLayout: React.FC<UserLayoutProps> = (props) => {
               href: 'https://pro.ant.design',
               blankTarget: true,
             },
+            {
+              key: '辽ICP备19008922号',
+              title: '辽ICP备19008922号',
+              href: 'http://beian.miit.gov.cn/',
+              blankTarget: true,
+            },
           ]}
         />
       </div>

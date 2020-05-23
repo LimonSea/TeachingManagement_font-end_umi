@@ -55,8 +55,10 @@ const errorHandler = (error: { response: Response }): Response => {
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
+  // prefix: 'http://windhunter.cn:7001',
 });
 
+// const prefix = 'http://windhunter.cn:7001';
 /**
  * 配置token请求头
  */
@@ -66,8 +68,11 @@ request.interceptors.request.use((url: string, options: any) => {
     headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     }
+    console.log(headers, localStorage.getItem('token'))
   }
-  return { url, options: {...options, headers} };
+
+  return { url: url.substring(7), options: {...options, headers} };
+  // return { url: prefix + url.substring(7), options: {...options, headers} };
 })
 
 export default request;

@@ -1,5 +1,4 @@
-import request from 'umi-request';
-import { ListItemDataType } from './data.d';
+import request from '@/utils/request';
 
 export async function queryList(params: {count: number, currentPage: number}) {
   return request('/server/writing/searchArticle', {

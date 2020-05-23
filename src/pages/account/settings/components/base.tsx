@@ -158,7 +158,7 @@ class BaseView extends Component<BaseViewProps> {
           </div>
           <Upload
             accept='.jpg,.png,.jpeg'
-            action='/server/upload'
+            action='/upload'
             data={{type: 'avatar'}}
             onChange={this.handleChange}
             showUploadList={false}

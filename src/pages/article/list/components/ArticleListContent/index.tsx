@@ -13,7 +13,7 @@ interface ArticleListContentProps {
       avatar: string;
       name: string;
       groupId: number;
-      group: {
+      group?: {
         name: string;
       }
     }
@@ -27,7 +27,12 @@ const ArticleListContent: React.FC<ArticleListContentProps> = ({
     <div className={styles.description}>{desc}</div>
     <div className={styles.extra}>
       <Avatar src={user.avatar} size="small" >{user.name}</Avatar>
-      <Link to={`/account/center/${authorId}`}>{user.name}</Link> 发布于 <Link to={`/group/center/${user.groupId}`}>{user.group.name}</Link>
+      <Link to={`/account/center/${authorId}`}>{user.name}</Link>
+        {
+          user.group ?
+          <> 发布于 <Link to={`/group/center/${user.groupId}`}>{user.group.name}</Link></> :
+          null
+        }
       <em>{moment(updatedAt).format('YYYY-MM-DD HH:mm')}</em>
     </div>
   </div>
