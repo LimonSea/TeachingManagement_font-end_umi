@@ -19,6 +19,7 @@ const Projects: React.FC<Partial<ModalState>> = (props) => {
         dataSource={projectList}
         renderItem={(item) => (
           <List.Item>
+            <a href={item.github} target="__blank">
             <Card className={styles.card} hoverable cover={<Avatar src={item.cover} shape="square" size={150} style={{backgroundColor: item.cover}}>{item.title}</Avatar>}>
               <Card.Meta title={<a>{item.title}</a>} description={item.desc} />
               <div className={styles.cardItemContent}>
@@ -36,6 +37,7 @@ const Projects: React.FC<Partial<ModalState>> = (props) => {
                 </div>
               </div>
             </Card>
+            </a>
           </List.Item>
         )}
       />

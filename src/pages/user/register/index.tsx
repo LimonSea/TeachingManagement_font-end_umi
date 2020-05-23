@@ -276,7 +276,7 @@ const Register: FC<RegisterProps> = ({ submitting, dispatch, userAndregister }) 
             <Input size="large" placeholder="手机号" />
           </FormItem>
         </InputGroup>
-        <Row gutter={8}>
+        {/* <Row gutter={8}>
           <Col span={16}>
             <FormItem
               name="captcha"
@@ -300,7 +300,7 @@ const Register: FC<RegisterProps> = ({ submitting, dispatch, userAndregister }) 
               {count ? `${count} s` : '获取验证码'}
             </Button>
           </Col>
-        </Row>
+        </Row> */}
         <FormItem>
           <Button
             size="large"

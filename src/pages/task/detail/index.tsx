@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Card, Avatar, Space, Divider } from 'antd';
+import { Card, Avatar, Space, Divider, Rate } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, Dispatch, Link } from 'umi';
 import moment from 'moment';
@@ -99,7 +99,7 @@ export const TaskDetail: FC<TaskDetailProps> = (props) => {
                 <Link to={`/account/center/${publisher.id}`}>{publisher.name}</Link>
               </Space>
             }
-            extra='—— 教师评语'
+            extra={<><span>教师评分：</span><Rate value={detail.usertask?.rate}/></>}
           >
             {
               // 是发布者本人，学生已提交
@@ -109,7 +109,10 @@ export const TaskDetail: FC<TaskDetailProps> = (props) => {
                   onSubmit={teacherSubmit}
                   loading={teacherLoading}
                 /> :
-                <div dangerouslySetInnerHTML={{__html: detail.usertask?.teacherContent || '<p>教师暂未批改</p>'}} />
+                <>
+
+                  <div dangerouslySetInnerHTML={{__html: detail.usertask?.teacherContent || '<p>教师暂未批改</p>'}} />
+                </>
             }
           </Card>
 

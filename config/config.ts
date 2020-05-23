@@ -83,7 +83,7 @@ export default defineConfig({
             {
               path: '/task',
               name: '作业',
-              icon: 'edit',
+              icon: 'file',
               component: './task/list',
               authority: ['admin', 'user'],
             },
@@ -251,6 +251,6 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
-  // proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: proxy[REACT_APP_ENV || 'dev'],
   chainWebpack: webpackPlugin,
 });

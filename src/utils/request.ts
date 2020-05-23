@@ -58,7 +58,6 @@ const request = extend({
   // prefix: 'http://windhunter.cn:7001',
 });
 
-// const prefix = 'http://windhunter.cn:7001';
 /**
  * 配置token请求头
  */
@@ -68,11 +67,13 @@ request.interceptors.request.use((url: string, options: any) => {
     headers = {
       Authorization: `Bearer ${localStorage.getItem('token')}`,
     }
-    console.log(headers, localStorage.getItem('token'))
   }
 
+  // 本地其服务开发时因为使用了代理，所以不删除url前缀'/server'
+  // return { url, options: {...options, headers} };
+  // 打包后无法使用代理，所以打包前需要手动更改url地址
   return { url: url.substring(7), options: {...options, headers} };
-  // return { url: prefix + url.substring(7), options: {...options, headers} };
+
 })
 
 export default request;
