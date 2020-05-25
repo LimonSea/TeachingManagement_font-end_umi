@@ -142,7 +142,7 @@ export default defineConfig({
             },
             {
               path: '/article',
-              authority: ['admin', 'user'],
+              authority: ['admin', 'user', 'guest'],
               routes: [
                 {
                   name: '文章详情',
@@ -156,17 +156,19 @@ export default defineConfig({
               name: '个人中心',
               icon: 'user',
               hideInMenu: true,
-              authority: ['admin', 'user'],
+              authority: ['admin', 'user', 'guest'],
               routes: [
                 {
                   name: '个人中心',
                   path: '/account/center/:id',
                   component: './account/center',
+                  authority: ['admin', 'user', 'guest'],
                 },
                 {
                   name: '个人设置',
                   path: '/account/settings',
                   component: './account/settings',
+                  authority: ['admin', 'user'],
                 },
               ],
             },

@@ -8,7 +8,7 @@ import ProLayout, {
   BasicLayoutProps as ProLayoutProps,
   Settings,
   DefaultFooter,
-  SettingDrawer,
+  // SettingDrawer,
 } from '@ant-design/pro-layout';
 import React, { useEffect } from 'react';
 import { Link, connect, Dispatch } from 'umi';
@@ -163,7 +163,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
           {children}
         </Authorized>
       </ProLayout>
-      <SettingDrawer
+      {/* <SettingDrawer
         settings={settings}
         onSettingChange={(config) =>
           dispatch({
@@ -171,7 +171,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
             payload: config,
           })
         }
-      />
+      /> */}
     </>
   );
 };
