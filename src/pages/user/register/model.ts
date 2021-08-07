@@ -1,6 +1,7 @@
 import { Effect, Reducer } from 'umi';
 
 import { Register } from './service';
+import { message } from 'antd';
 
 export interface StateType {
   status?: 'ok' | 'error' | number;
@@ -28,10 +29,14 @@ const Model: ModelType = {
   effects: {
     *submit({ payload }, { call, put }) {
       const response = yield call(Register, payload);
-      yield put({
-        type: 'registerHandle',
-        payload: response,
-      });
+      if (response.status === 'ok') {
+        message.success('注册成功！');
+        yield put({
+          type: 'registerHandle',
+          payload: response,
+        });
+      }
+      else message.error(response.msg);
     },
     *clear({ payload }, { call, put }) {
       yield put({

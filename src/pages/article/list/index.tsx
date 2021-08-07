@@ -5,6 +5,7 @@ import { connect, Dispatch, Link } from 'umi';
 import ArticleListContent from './components/ArticleListContent';
 import { StateType } from './model';
 import { ListItemDataType } from './data.d';
+import { GridContent } from '@ant-design/pro-layout';
 import StandardFormRow from './components/StandardFormRow';
 import TagSelect from './components/TagSelect';
 import styles from './style.less';
@@ -125,7 +126,7 @@ const Articles: FC<ArticlesProps> = ({ dispatch, adminAndlist: { list }, loading
   );
 
   return (
-    <>
+    <GridContent>
       {/* <Card bordered={false}>
         <Form
           layout="inline"
@@ -218,20 +219,20 @@ const Articles: FC<ArticlesProps> = ({ dispatch, adminAndlist: { list }, loading
             >
               <List.Item.Meta
                 title={
-                  <Link to={`article/${item.id}`} >{item.title}</Link>
+                  <Link to={`article/${item.id}`} style={{fontSize: 19, fontWeight: 'bold'}} >{item.title}</Link>
                 }
-                description={
-                  <span>
-                    <Tag>{item.type}</Tag>
-                  </span>
-                }
+                // description={
+                //   <span>
+                //     <Tag>{item.type}</Tag>
+                //   </span>
+                // }
               />
               <ArticleListContent data={item} />
             </List.Item>
           )}
         />
       </Card>
-    </>
+    </GridContent>
   );
 };
 

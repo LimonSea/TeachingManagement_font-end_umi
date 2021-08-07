@@ -51,7 +51,6 @@ const Register: FC<RegisterProps> = ({ submitting, dispatch, userAndregister }) 
     const account = form.getFieldValue('mail');
 
     if (userAndregister.status === 'ok') {
-      message.success('注册成功！');
       // 清除当前状态
       dispatch({
         type: 'userAndregister/clear',
@@ -62,9 +61,6 @@ const Register: FC<RegisterProps> = ({ submitting, dispatch, userAndregister }) 
           account,
         },
       });
-    }
-    else if (userAndregister.status === 'error') {
-      message.success('注册失败，请稍后再试');
     }
   }, [userAndregister]);
   useEffect(

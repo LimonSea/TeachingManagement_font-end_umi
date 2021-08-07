@@ -55,7 +55,6 @@ const errorHandler = (error: { response: Response }): Response => {
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
-  // prefix: 'http://windhunter.cn:7001',
 });
 
 /**
@@ -69,7 +68,7 @@ request.interceptors.request.use((url: string, options: any) => {
     }
   }
 
-  // 本地其服务开发时因为使用了代理，所以不删除url前缀'/server'
+  // 本地起服务开发时因为使用了代理，所以不删除url前缀'/server'
   // return { url, options: {...options, headers} };
   // 打包后无法使用代理，所以打包前需要手动更改url地址
   return { url: url.substring(7), options: {...options, headers} };

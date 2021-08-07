@@ -168,7 +168,7 @@ class Center extends Component<CenterProps, CenterState> {
             marginRight: 8,
           }}
         />
-        {currentUser.groupName}
+        {currentUser.groupName ? currentUser.groupName : '未加入工作室'}
       </p>
     </div>
   );

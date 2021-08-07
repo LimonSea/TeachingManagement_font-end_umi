@@ -46,7 +46,7 @@ export default {
   navTheme: 'light',
   primaryColor: '#FAAD14',
   layout: 'topmenu',
-  contentWidth: 'Fluid',
+  contentWidth: 'Fixed',
   fixedHeader: false,
   autoHideHeader: false,
   fixSiderbar: false,

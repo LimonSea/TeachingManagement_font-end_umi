@@ -10,6 +10,7 @@ import { ConnectState } from '@/models/connect';
 import { CurrentUser } from '@/models/user';
 import styles from './style.less';
 import { ModalState } from './model';
+import { GridContent } from '@ant-design/pro-layout';
 
 const FormItem = Form.Item;
 interface ArticleProps {
@@ -52,7 +53,7 @@ const Article: FC<ArticleProps> = (props) => {
   };
 
   return (
-    <>
+    <GridContent>
       {/* 文章 */}
       <Card
         bordered={false}
@@ -150,7 +151,7 @@ const Article: FC<ArticleProps> = (props) => {
           })
         }
       </Card>
-    </>
+    </GridContent>
   );
 };
 

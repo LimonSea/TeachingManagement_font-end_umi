@@ -21,8 +21,10 @@ export default defineConfig({
   dynamicImport: {
     loading: '@/components/PageLoading/index',
   },
-  targets: {
-    ie: 11,
+  targets: {}, // 默认 chrome: 79, firefox: 64, safari: 10, edge: 13, ios: 10
+  nodeModulesTransform: {
+    type: 'none',
+    exclude: [],
   },
   // umi routes: https://umijs.org/docs/routing
   routes: [
